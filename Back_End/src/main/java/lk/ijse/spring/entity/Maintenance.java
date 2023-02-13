@@ -14,6 +14,8 @@ import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,4 +28,8 @@ public class Maintenance {
     private String date;
     private String details;
     private double cost;
+
+    @ManyToOne
+    @JoinColumn(name = "registrationNO", referencedColumnName = "registrationNO", nullable = false)
+    private Car car;
 }

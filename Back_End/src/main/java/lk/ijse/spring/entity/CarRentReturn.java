@@ -12,8 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,4 +26,11 @@ public class CarRentReturn {
     private String date;
     private double noOfKm;
 
+    @OneToOne(cascade = {CascadeType.DETACH,CascadeType.REFRESH})
+    @JoinColumn(name = "rentId", referencedColumnName = "rentId", nullable = false)
+    private CarRent rental;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "paymentId", referencedColumnName = "paymentId", nullable = false)
+    private Payment payment;
 }
