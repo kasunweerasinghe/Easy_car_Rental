@@ -523,7 +523,7 @@
                                 <button type="button" class="btn btn-danger mt-3 " id="btnDeleteRental"><i
                                         class="fas fa-trash"></i> Cancel Rental
                                 </button>
-                                <button type="button" class="btn btn-warning mt-3" id="btnClearRental">Clear</button>
+                                <button type="button" class="btn btn-secondary mt-3" id="btnClearRental">Clear</button>
                             </div>
                         </div>
                     </div>
@@ -564,5 +564,71 @@
         Weerasinghe</h6>
 </footer>
 
+
+<script src="assets/bootstrap-5.2.3-dist/js/bootstrap.min.js"></script>
+<script src="assets/jQuery/jquery-3.6.1.min.js"></script>
+<script src="assets/Sweet%20Alert/sweetalert.min.js"></script>
+
+<script>
+    var navbar = document.getElementById("navSection");
+    var sticky = navbar.offsetTop;
+
+    function scrollFunction() {
+
+        if (window.pageYOffset >= sticky) {
+            console.log(sticky + 'in');
+            navbar.classList.add('sticky');
+        } else {
+            navbar.classList.remove('sticky');
+            console.log(sticky);
+
+        }
+
+    }
+
+
+    function Time() {
+
+        var date = new Date();
+
+        var hour = date.getHours();
+
+        var minute = date.getMinutes();
+
+        var second = date.getSeconds();
+
+        var period = "";
+
+        if (hour >= 12) {
+            period = "PM";
+        } else {
+            period = "AM";
+        }
+
+        if (hour == 0) {
+            hour = 12;
+        } else {
+            if (hour > 12) {
+                hour = hour - 12;
+            }
+        }
+
+        hour = update(hour);
+        minute = update(minute);
+        second = update(second);
+        document.getElementById("digitalClock").innerText = hour + " : " + minute + " : " + second + " " + period;
+        setTimeout(Time, 1000);
+    }
+
+    function update(t) {
+        if (t < 10) {
+            return "0" + t;
+        } else {
+            return t;
+        }
+    }
+
+    Time();
+</script>
 </body>
 </html>
