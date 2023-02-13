@@ -98,3 +98,61 @@ function checkIfLoginUserFormValid() {
         $('#txtUserName').focus();
     }
 }
+
+// check which user select
+$('#inputUserType').change(function () {
+    var userType = $('#inputUserType').find('option:selected').text();
+    if (userType === "Admin") {
+        $("#inputName").prop('disabled', false);
+        $("#inputAddress").prop('disabled', false);
+        $("#inputContactNo").prop('disabled', false);
+        $("#inputEmail").prop('disabled', false);
+        $("#inputUserName").prop('disabled', false);
+        $("#inputPassword").prop('disabled', false);
+        $("#inputDrivingLicence").prop('disabled', true);
+        $("#inputNIC").prop('disabled', true);
+        $("#inputfile1").prop('disabled', true);
+        $("#inputfile2").prop('disabled', true);
+        $("#inputfile3").prop('disabled', true);
+        generateAdminId();
+    } else if (userType === "Customer") {
+        $("#inputName").prop('disabled', false);
+        $("#inputAddress").prop('disabled', false);
+        $("#inputContactNo").prop('disabled', false);
+        $("#inputEmail").prop('disabled', false);
+        $("#inputUserName").prop('disabled', false);
+        $("#inputPassword").prop('disabled', false);
+        $("#inputDrivingLicence").prop('disabled', false);
+        $("#inputNIC").prop('disabled', false);
+        $("#inputfile1").prop('disabled', false);
+        $("#inputfile2").prop('disabled', false);
+        $("#inputfile3").prop('disabled', false);
+        generateCustomerId();
+    } else {
+        disableAllComponents();
+    }
+});
+
+function disableAllComponents() {
+    $("#inputName").prop('disabled', true);
+    $("#inputAddress").prop('disabled', true);
+    $("#inputContactNo").prop('disabled', true);
+    $("#inputEmail").prop('disabled', true);
+    $("#inputUserName").prop('disabled', true);
+    $("#inputPassword").prop('disabled', true);
+    $("#inputDrivingLicence").prop('disabled', true);
+    $("#inputNIC").prop('disabled', true);
+    $("#inputfile1").prop('disabled', true);
+    $("#inputfile2").prop('disabled', true);
+    $("#inputfile3").prop('disabled', true);
+    $('#txtId').val("");
+}
+
+function generateAdminId() {
+
+}
+
+function generateCustomerId() {
+
+}
+
