@@ -1,0 +1,7 @@
+$(function (){
+    loadCarDetails();
+});
+
+function loadCarDetails(){
+
+}
