@@ -42,3 +42,59 @@ function addLoginFormValidation() {
         return false;
     }
 }
+
+$('#txtUserName').on('keyup', function (event) {
+    setLoginButtonDisableOrNot();
+    if (event.key === "Enter") {
+        checkIfLoginUserFormValid();
+    }
+});
+
+$('#txtPassword').on('keyup', function (event) {
+    setLoginButtonDisableOrNot();
+    if (event.key === "Enter") {
+        checkIfLoginUserFormValid();
+    }
+});
+
+// check user from combo
+$('#cmbUserType').change(function () {
+    var userType = $('#cmbUserType').find('option:selected').text();
+    var username = $('#txtUserName').val();
+    var password = $('#txtPassword').val();
+    console.log(userType);
+    if (userType != "-Select User Type-" && username != "" && password != "") {
+        $("#btnLogin").prop('disabled', false);
+    } else {
+        $("#btnLogin").prop('disabled', true);
+    }
+});
+
+// disable sign in btn until fields fill
+function setLoginButtonDisableOrNot() {
+    let check = addLoginFormValidation();
+    var type = $("#cmbUserType").find('option:selected').text();
+    if (check && type != "-Select User Type-") {
+        $("#btnLogin").prop('disabled', false);
+    } else {
+        $("#btnLogin").prop('disabled', true);
+    }
+}
+
+// check username and pass valid to unlock sign in btn
+function checkIfLoginUserFormValid() {
+    var username = $('#txtUserName').val();
+    if (regLoginUsername.test(username)) {
+        $('#txtPassword').focus();
+        var password = $('#txtPassword').val();
+        var response = regLoginPassword.test(password);
+        var type = $('#cmbUserType').find('option:selected').text();
+        if (response && type != "-Select User Type-") {
+            loginUser();
+        } else {
+            $('#txtPassword').focus();
+        }
+    } else {
+        $('#txtUserName').focus();
+    }
+}
