@@ -1,0 +1,81 @@
+<!--
+* created by kasun weerasinghe
+* Date: 2023-02-13
+* Time: 13:10
+* Project Name: Back_End
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log In</title>
+    <link rel="stylesheet" href="assets/styles/style.css">
+    <link rel="stylesheet" href="assets/bootstrap-5.2.3-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/css/all.min.css">
+    <link rel="stylesheet" href="assets/styles/normalize.css">
+    <link rel="icon" href="assets/images/logo.png">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+</head>
+<body>
+
+<section class="login_container vw-100 vh-100">
+
+    <div class="container bg-white w-75 h-75 opacity-75 position-absolute start-0 end-0 top-0 bottom-0 m-auto">
+
+        <div class="row w-100 h-100 g-0">
+            <div class="col-md-6 img_div">
+<!--                <img src="assets/images/3.jpg" class="taxi_png">-->
+            </div>
+
+            <div class="col-md-6">
+                <div class="card-body">
+                    <div class="row align-self-center"><h3 class="h3 text-center p-3">Login Form</h3></div>
+                    <div>
+                        <form id="loginForm">
+                            <input class="form-control" id="txtLogId" name="logId" type="text" hidden>
+                            <div>
+                                <label for="txtUserName" class="form-label fw-bold mb-0">User Name</label>
+                                <input class="form-control" id="txtUserName" name="userName" type="text">
+                                <p><small class="text-danger" id="userNameError"></small></p>
+                            </div>
+
+                            <div>
+                                <label for="txtPassword" class="form-label fw-bold mb-0">Password</label>
+                                <input class="form-control" id="txtPassword" name="password"
+                                       type="password">
+                                <p><small class="text-danger" id="passwordError"></small></p>
+                            </div>
+
+                            <div>
+                                <label for="cmbUserType" class="form-label fw-bold mb-0">User Type</label>
+                                <select class="form-control border-dark" name="userType" id="cmbUserType">
+                                    <option value="-select-">-Select User Type-</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Driver">Driver</option>
+                                    <option value="Customer">Customer</option>
+                                </select>
+                            </div>
+
+                            <div class="btn-group mt-3 " style="display: flex">
+                                <button class="btn btn-primary " id="btnLogin" type="button" disabled>Login</button>
+                            </div>
+                            <hr>
+                        </form>
+                    </div>
+
+                    <button class="btn btn-success mt-3 " style="right: 13vw;position: absolute" id="btnSignup"
+                            data-bs-toggle="modal"
+                            data-bs-target="#signUpModal">
+                        Create New Account
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+</body>
+</html>
