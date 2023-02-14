@@ -404,3 +404,32 @@ function checkMonthlyRate() {
         return false;
     }
 }
+
+
+// free km for price
+$('#txtFreeKmForPrice').on('keyup', function (event) {
+    var freeKmForPrice = $('#txtFreeKmForPrice').val();
+    checkFreeKmForPrice();
+    if (event.key === "Enter") {
+        if (regFreeKmForPrice.test(freeKmForPrice)) {
+            $('#txtFreeKmForDuration').focus();
+        } else {
+            $('#txtFreeKmForPrice').focus();
+        }
+    }
+});
+
+
+// Check car Free Km For Price
+function checkFreeKmForPrice() {
+    var freeKmForPrice = $('#txtFreeKmForPrice').val();
+    if (regFreeKmForPrice.test(freeKmForPrice)) {
+        $("#txtFreeKmForPrice").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtFreeKmForPrice").css('border', '3px solid red').focus();
+        return false;
+    }
+}
+
+
