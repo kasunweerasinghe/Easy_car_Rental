@@ -804,3 +804,16 @@ function cancleRental() {
         }
     })
 }
+
+
+// clear car rental renponse fields
+function clearCarRentResponseFields() {
+    $('#txtRentId').val("");
+    $('#txtDate').val("");
+    $('#txtPickupDate').val("");
+    $('#txtReturnDate').val("");
+    $('#txtRegistrationNo').val("");
+    $('#txtLicenceNo').val("");
+    $('#txtRentStatus').val("");
+    $('#txtRentCustId').val("");
+}
