@@ -333,3 +333,22 @@ function checkFuel() {
 }
 
 
+// cmb car color
+$('#cmbColor').click(function () {
+    checkColor();
+})
+
+
+// Check car color validation
+function checkColor() {
+    var color = $('#cmbColor').find('option:selected').text();
+    console.log(color);
+    if (color != "- Select Color -") {
+        $("#cmbColor").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#cmbColor").css('border', '3px solid red').focus();
+        return false;
+    }
+}
+
