@@ -331,4 +331,467 @@ function checkInputEmail() {
     }
 }
 
+// check Driving Licence
+$('#inputDrivingLicence').on('keyup', function () {
+    checkInputDrivingLicence();
+})
 
+
+// function for check Driving Licence validation
+function checkInputDrivingLicence() {
+    var drivingLicence = $('#inputDrivingLicence').val();
+    if (regDrivingLicenceNo.test(drivingLicence)) {
+        $("#inputDrivingLicence").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#inputDrivingLicence").css('border', '2px solid red');
+        return false;
+    }
+}
+
+// check nic
+$('#inputNIC').on('keyup', function () {
+    checkInputNIC();
+})
+
+
+// function for check nic validation
+function checkInputNIC() {
+    var nicNo = $('#inputNIC').val();
+    if (regNicNo.test(nicNo)) {
+        $("#inputNIC").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#inputNIC").css('border', '2px solid red');
+        return false;
+    }
+}
+
+// check username
+$('#inputUserName').on('keyup', function () {
+    checkInputUserName();
+})
+
+
+// function for check username validation
+function checkInputUserName() {
+    var userName = $('#inputUserName').val();
+    if (regLoginUsername.test(userName)) {
+        $("#inputUserName").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#inputUserName").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// check password
+$('#inputPassword').on('keyup', function () {
+    checkInputPassword();
+})
+
+
+// function for check password validation
+function checkInputPassword() {
+    var password = $('#inputPassword').val();
+    if (regLoginPassword.test(password)) {
+        $("#inputPassword").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#inputPassword").css('border', '2px solid red');
+        return false;
+    }
+}
+
+// add customer
+function addCustomer() {
+
+    let id = $('#txtId').val();
+    let name = $('#inputName').val();
+    let address = $('#inputAddress').val();
+    let contactNo = $('#inputContactNo').val();
+    let email = $('#inputEmail').val();
+    let nicNo = $('#inputNIC').val();
+    let licenceNo = $('#inputDrivingLicence').val();
+    let username = $('#inputUserName').val();
+    let password = $('#inputPassword').val();
+    let status = "Pending";
+
+    var customer = {
+        customerId: id,
+        name: name,
+        address: address,
+        contactNo: contactNo,
+        email: email,
+        nicNo: nicNo,
+        licenceNo: licenceNo,
+        username: username,
+        password: password,
+        status: status
+    }
+
+    $.ajax({
+        url: baseUrl + "api/v1/customer",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(customer),
+        success: function (resp) {
+            uploadCustomerImages(id);
+            swal({
+                title: "Confirmation",
+                text: "Customer Added Successfully",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        },
+        error: function (ob) {
+            swal({
+                title: "Error!",
+                text: "Customer Not Added Successfully",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+
+// upload customer images
+function uploadCustomerImages(id) {
+    var fileObjectNic1 = $('#inputfile1')[0].files[0];
+    var fileNameNic1 = id + "-nicfront-" + $('#inputfile1')[0].files[0].name;
+
+    var fileObjectNic2 = $('#inputfile2')[0].files[0];
+    var fileNameNic2 = id + "-nicback-" + $('#inputfile2')[0].files[0].name;
+
+    var fileObjectLicence = $('#inputfile3')[0].files[0];
+    var fileNameLicence = id + "-licence-" + $('#inputfile3')[0].files[0].name;
+
+    var data = new FormData();
+    data.append("nicf", fileObjectNic1, fileNameNic1);
+    data.append("nicb", fileObjectNic2, fileNameNic2);
+    data.append("licenceImg", fileObjectLicence, fileNameLicence);
+
+    $.ajax({
+        url: baseUrl + "api/v1/customer/up/" + id,
+        method: "PUT",
+        async: true,
+        contentType: false,
+        processData: false,
+        data: data,
+        success: function (res) {
+            console.log("Uploaded");
+            clearSignupTextFields();
+        }
+    })
+}
+
+
+// clear sign up field
+function clearSignupTextFields() {
+    $('#txtId').val("");
+    $('#inputUserType').val("-Select User Type-");
+    $('#inputName').val("");
+    $('#inputContactNo').val("");
+    $('#inputAddress').val("");
+    $('#inputEmail').val("");
+    $('#inputDrivingLicence').val("");
+    $('#inputNIC').val("");
+    $('#inputUserName').val("");
+    $('#inputPassword').val("");
+    $('#inputfile1').val("");
+    $('#inputfile2').val("");
+    $('#inputfile3').val("");
+    $('#inputName').css('border', '1px solid #ced4da');
+    $('#inputContactNo').css('border', '1px solid #ced4da');
+    $('#inputAddress').css('border', '1px solid #ced4da');
+    $('#inputEmail').css('border', '1px solid #ced4da');
+    $('#inputDrivingLicence').css('border', '1px solid #ced4da');
+    $('#inputNIC').css('border', '1px solid #ced4da');
+    $('#inputUserName').css('border', '1px solid #ced4da');
+    $('#inputPassword').css('border', '1px solid #ced4da');
+    disableAllComponents();
+}
+
+
+
+//ADMIN
+// add admin
+function addAdmin() {
+    let id = $('#txtId').val();
+    let name = $('#inputName').val();
+    let address = $('#inputAddress').val();
+    let contactNo = $('#inputContactNo').val();
+    let email = $('#inputEmail').val();
+    let username = $('#inputUserName').val();
+    let password = $('#inputPassword').val();
+
+    var admin = {
+        adminId: id,
+        name: name,
+        address: address,
+        contact: contactNo,
+        email: email,
+        username: username,
+        password: password
+    }
+
+    $.ajax({
+        url: baseUrl + "api/v1/admin",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(admin),
+        success: function (resp) {
+            clearSignupTextFields();
+            swal({
+                title: "Confirmation",
+                text: "Admin Added Successfully",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        },
+        error: function (ob) {
+            swal({
+                title: "Error!",
+                text: "Admin Not Added Successfully",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+// create account
+$('#btnCreate').click(function () {
+    if ($('#inputUserType').val() === "Customer") {
+        if ($('#inputName').val() != "") {
+            if ($('#inputContactNo').val() != "") {
+                if ($('#inputAddress').val() != "") {
+                    if ($('#inputEmail').val() != "") {
+                        if ($('#inputDrivingLicence').val() != "") {
+                            if ($('#inputNIC').val() != "") {
+                                if ($('#inputUserName').val() != "") {
+                                    if ($('#inputPassword').val() != "") {
+                                        if ($('#inputfile1').val() != "") {
+                                            if ($('#inputfile2').val() != "") {
+                                                if ($('#inputfile3').val() != "") {
+                                                    let res = confirm("Do you want to add this customer?");
+                                                    if (res) {
+                                                        addCustomer();
+                                                    }
+                                                } else {
+                                                    alert("Please upload image of licence");
+                                                    $('#inputfile3').focus();
+                                                }
+                                            } else {
+                                                alert("Please upload back image of NIC");
+                                                $('#inputfile2').focus();
+                                            }
+                                        } else {
+                                            alert("Please upload front image of NIC");
+                                            $('#inputfile1').focus();
+                                        }
+                                    } else {
+                                        alert("Please enter password...");
+                                        $('#inputPassword').focus();
+                                    }
+                                } else {
+                                    alert("Please enter username...");
+                                    $('#inputUserName').focus();
+                                }
+                            } else {
+                                alert("Please enter your NIC No...");
+                                $('#inputNIC').focus();
+                            }
+                        } else {
+                            alert("Please enter your licence No...");
+                            $('#inputDrivingLicence').focus();
+                        }
+                    } else {
+                        alert("Please enter your email...");
+                        $('#inputEmail').focus();
+                    }
+                } else {
+                    alert("Please enter your address...");
+                    $('#inputAddress').focus();
+                }
+            } else {
+                alert("Please enter your Contact No...");
+                $('#inputContactNo').focus();
+            }
+        } else {
+            alert("Please enter your name...");
+            $('#inputName').focus();
+        }
+    } else if ($('#inputUserType').val() === "Admin") {
+        if ($('#inputName').val() != "") {
+            if ($('#inputContactNo').val() != "") {
+                if ($('#inputAddress').val() != "") {
+                    if ($('#inputEmail').val() != "") {
+                        if ($('#inputUserName').val() != "") {
+                            if ($('#inputPassword').val() != "") {
+                                let res = confirm("Do you want to add this admin?");
+                                if (res) {
+                                    addAdmin();
+                                }
+                            } else {
+                                alert("Please enter password...");
+                                $('#inputPassword').focus();
+                            }
+                        } else {
+                            alert("Please enter username...");
+                            $('#inputUserName').focus();
+                        }
+                    } else {
+                        alert("Please enter your email...");
+                        $('#inputEmail').focus();
+                    }
+                } else {
+                    alert("Please enter your address...");
+                    $('#inputAddress').focus();
+                }
+            } else {
+                alert("Please enter your Contact No...");
+                $('#inputContactNo').focus();
+            }
+        } else {
+            alert("Please enter your name...");
+            $('#inputName').focus();
+        }
+    } else {
+        alert("Please select user type")
+    }
+});
+
+
+// btn clear
+$('#btnClear').click(function () {
+    clearSignupTextFields();
+});
+
+
+// btn login
+$('#btnLogin').click(function () {
+    var userType = $('#cmbUserType').find('option:selected').text();
+
+    if ($('#txtUserName').val() != "" && $('#txtPassword').val() != "" && userType != "-Select User Type-") {
+        loginUser();
+    }
+
+
+});
+
+// function for get login user
+function loginUser() {
+    var username = $('#txtUserName').val();
+    var password = $('#txtPassword').val();
+    var userType = $('#cmbUserType').find('option:selected').text();
+
+    console.log(userType);
+
+    if (userType === "Admin") {
+        searchAdmin(userType, username, password);
+    } else if (userType === "Customer") {
+        searchCustomer(userType, username, password);
+    } else if (userType === "Driver") {
+        searchDriver(userType, username, password);
+    }
+}
+
+function loginSave(userType, username, password) {
+    let logId = $('#txtLogId').val();
+    console.log(logId);
+    $.ajax({
+        url: baseUrl + "api/v1/login",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(
+            {
+                loginId: logId,
+                username: username,
+                password: password,
+                role: userType
+            }
+        ),
+        success: function (res) {
+            if (userType==="Admin"){
+                location.replace("AdminDashboard.html");
+            } else if (userType==="Customer"){
+                location.replace("CustomerDashboard.html");
+            } else if (userType==="Driver"){
+                location.replace("DriverDashboard.html");
+            }
+            console.log("Login data saved");
+        }
+    })
+}
+
+// function for generate id
+$(function () {
+    getNewLoginId();
+});
+
+function getNewLoginId() {
+    $.ajax({
+        url: baseUrl + "api/v1/login/generateLogId",
+        method: "GET",
+        success: function (res) {
+            $('#txtLogId').val(res.data);
+        }
+    });
+}
+
+
+// search admin
+function searchAdmin(userType, username, password) {
+    $.ajax({
+        url: baseUrl + "api/v1/admin/" + username + "/" + password,
+        method: "GET",
+        success: function (res) {
+            if (res.data === true) {
+                loginSave(userType, username, password);
+
+            } else {
+                alert(res.message);
+            }
+        }
+    });
+}
+
+// search customer
+function searchCustomer(userType, username, password) {
+    $.ajax({
+        url: baseUrl + "api/v1/customer/" + username + "/" + password,
+        method: "GET",
+        success: function (res) {
+            console.log(res.data);
+            if (res.data === true) {
+                loginSave(userType, username, password);
+            } else {
+                alert(res.message);
+            }
+        }
+    })
+}
+
+// search driver
+function searchDriver(userType, username, password) {
+    $.ajax({
+        url: baseUrl + "api/v1/driver/" + username + "/" + password,
+        method: "GET",
+        success: function (res) {
+            console.log(res.data);
+            if (res.data === true) {
+                loginSave(userType, username, password);
+            } else {
+                alert(res.message);
+            }
+        }
+    })
+}

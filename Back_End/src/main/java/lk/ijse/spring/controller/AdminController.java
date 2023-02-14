@@ -31,7 +31,7 @@ public class AdminController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public ResponseUtil saveAdmin(@RequestBody AdminDTO dto) {
-//        System.out.println(dto.toString());
+        System.out.println(dto.toString());
         service.saveAdmin(dto);
         return new ResponseUtil(200, "Saved", null);
     }
