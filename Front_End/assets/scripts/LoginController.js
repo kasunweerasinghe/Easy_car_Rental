@@ -177,6 +177,7 @@ $('#inputName,#inputAddress,#inputContactNo,#inputNIC,#inputDrivingLicence,#inpu
     }
 });
 
+// SIGN UP
 // signup validation
 function checkIfSignUpUserFormValid() {
     var name = $('#inputName').val();
@@ -254,6 +255,42 @@ function checkIfSignUpUserFormValid() {
         }
     } else {
         $('#inputName').focus();
+    }
+}
+
+
+// check input name
+$('#inputName').on('keyup', function () {
+    checkInputName();
+})
+
+// function for check input name validation
+function checkInputName() {
+    var name = $('#inputName').val();
+    if (regName.test(name)) {
+        $("#inputName").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#inputName").css('border', '2px solid red');
+        return false;
+    }
+}
+
+// check contact no
+$('#inputContactNo').on('keyup', function () {
+    checkInputContactNo();
+})
+
+
+// function for check contact no validation
+function checkInputContactNo() {
+    var contactNo = $('#inputContactNo').val();
+    if (regContactNo.test(contactNo)) {
+        $("#inputContactNo").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#inputContactNo").css('border', '2px solid red');
+        return false;
     }
 }
 
