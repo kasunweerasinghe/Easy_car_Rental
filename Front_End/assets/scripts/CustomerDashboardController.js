@@ -846,3 +846,14 @@ function updateCarStatusByRegNo(status, registrationNo) {
         }
     })
 }
+
+// add update driver status
+function updateDriverStatusByLicenceNo(licenceNo) {
+    $.ajax({
+        url: baseUrl + "api/v1/driver/updateAvailable/" + licenceNo,
+        method: "PUT",
+        success: function (res) {
+            console.log("Update Driver Status");
+        }
+    })
+}
