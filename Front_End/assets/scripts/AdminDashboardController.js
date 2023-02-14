@@ -433,3 +433,29 @@ function checkFreeKmForPrice() {
 }
 
 
+
+// free km for the duration
+$('#txtFreeKmForDuration').on('keyup', function (event) {
+    var freeKmForDuration = $('#txtFreeKmForDuration').val();
+    checkFreeKmForDuration();
+    if (event.key === "Enter") {
+        if (regFreeKmForDuration.test(freeKmForDuration)) {
+            $('#txtLossDamageWaiver').focus();
+        } else {
+            $('#txtFreeKmForDuration').focus();
+        }
+    }
+});
+
+
+// Check car Free Km For Duration
+function checkFreeKmForDuration() {
+    var freeKmForDuration = $('#txtFreeKmForDuration').val();
+    if (regFreeKmForDuration.test(freeKmForDuration)) {
+        $("#txtFreeKmForDuration").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtFreeKmForDuration").css('border', '3px solid red').focus();
+        return false;
+    }
+}
