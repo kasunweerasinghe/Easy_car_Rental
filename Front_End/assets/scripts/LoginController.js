@@ -294,3 +294,41 @@ function checkInputContactNo() {
     }
 }
 
+
+// check address
+$('#inputAddress').on('keyup', function () {
+    checkInputAddress();
+})
+
+
+// function for check address validation
+function checkInputAddress() {
+    var address = $('#inputAddress').val();
+    if (regAddress.test(address)) {
+        $("#inputAddress").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#inputAddress").css('border', '2px solid red');
+        return false;
+    }
+}
+
+// check email
+$('#inputEmail').on('keyup', function () {
+    checkInputEmail();
+})
+
+
+// function for check email validation
+function checkInputEmail() {
+    var email = $('#inputEmail').val();
+    if (regEmail.test(email)) {
+        $("#inputEmail").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#inputEmail").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
