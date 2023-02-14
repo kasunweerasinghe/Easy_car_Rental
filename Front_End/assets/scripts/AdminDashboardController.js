@@ -234,7 +234,6 @@ $('#txtBrand').on('keyup', function (event) {
 });
 
 
-
 // Check car Brand validation
 function checkBrand() {
     var brand = $('#txtBrand').val();
@@ -295,6 +294,24 @@ function checkNoOfPassengers() {
     }
 }
 
+
+// Transmission type
+$('#cmbTransmissionType').click(function () {
+    checkTransmission();
+})
+
+
+// Check Transmission validation
+function checkTransmission() {
+    var transType = $('#cmbTransmissionType').find('option:selected').text();
+    if (transType != "- Select Transmission -") {
+        $("#cmbTransmissionType").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#cmbTransmissionType").css('border', '3px solid red').focus();
+        return false;
+    }
+}
 
 
 
