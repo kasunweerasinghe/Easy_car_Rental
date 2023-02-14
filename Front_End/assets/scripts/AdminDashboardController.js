@@ -191,7 +191,7 @@ function loadTodayBookings() {
 }
 
 
-
+// CAR Section
 // Car Reg no
 $('#txtRegNo').on('keyup', function (event) {
     var regNo = $('#txtRegNo').val();
@@ -204,6 +204,7 @@ $('#txtRegNo').on('keyup', function (event) {
         }
     }
 });
+
 
 // Check car Reg no validation
 function checkRegNo() {
@@ -218,6 +219,32 @@ function checkRegNo() {
     }
 }
 
+// car brand
+$('#txtBrand').on('keyup', function (event) {
+    var brand = $('#txtBrand').val();
+    checkBrand();
+    if (event.key === "Enter") {
+        if (regBrand.test(brand)) {
+            $('#cmbtype').focus();
+        } else {
+            $('#txtBrand').focus();
+        }
+    }
+});
+
+
+// Check car Brand validation
+function checkBrand() {
+    var brand = $('#txtBrand').val();
+
+    if (regBrand.test(brand)) {
+        $("#txtBrand").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtBrand").css('border', '3px solid red').focus();
+        return false;
+    }
+}
 
 
 
