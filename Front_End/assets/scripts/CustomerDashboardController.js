@@ -368,3 +368,65 @@ function clearCustomerDetails() {
     $('#txtCusNIC').css('border','2px solid #ced4da');
     $('#txtCusLicenceNo').css('border','2px solid #ced4da');
 }
+
+
+// ---------------BOOKING REQUEST-----------------------------
+// get car type from combo
+$('#cmbType').change(function () {
+    let type = $('#cmbType').find('option:selected').text();
+    clearRentalFields();
+    $('#cmbRegistrationNo').empty();
+    $('#cmbRegistrationNo').append(new Option("-Select Registration No-", ""));
+    $.ajax({
+        url: baseUrl + "api/v1/car/getRegNo/" + type,
+        method: "GET",
+        success: function (res) {
+            let i = 0;
+            for (let regNo of res.data) {
+                $('#cmbRegistrationNo').append(new Option(regNo, i));
+                i++;
+            }
+        }
+    })
+})
+
+
+// get car reg no from combo
+$('#cmbRegistrationNo').change(function () {
+    let registrationNo = $('#cmbRegistrationNo').find('option:selected').text();
+    $.ajax({
+        url: baseUrl + "api/v1/car/" + registrationNo,
+        method: "GET",
+        success: function (res) {
+            let car = res.data;
+            setCarDataToFields(car);
+        },
+        error: function (ob) {
+            clearRentalFields();
+        }
+    })
+})
+
+function setCarDataToFields(car) {
+
+}
+
+function clearRentalFields() {
+    $('#divCarFrontView').empty();
+    $('#divCarBackView').empty();
+    $('#divCarSideView').empty();
+    $('#divCarInteriorView').empty();
+
+    $('#txtCarBrand').val("");
+    $('#txtCarColor').val("");
+    $('#txtCarFuel').val("");
+    $('#txtCarTransmission').val("");
+    $('#txtCarNoOfPassengers').val("");
+    $('#txtCarDailyRate').val("");
+    $('#txtCarMonthlyRate').val("");
+    $('#txtCarFreeKmForPrice').val("");
+    $('#txtCarFreeKmForDuration').val("");
+    $('#txtCarLossDamageWavier').val("");
+    $('#txtCarPriceForExtraKm').val("");
+    $('#txtCarCompleteKm').val("");
+}
