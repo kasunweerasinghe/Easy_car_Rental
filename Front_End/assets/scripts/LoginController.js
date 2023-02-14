@@ -148,11 +148,112 @@ function disableAllComponents() {
     $('#txtId').val("");
 }
 
+// generate Admin IDs
 function generateAdminId() {
-
+    $.ajax({
+        url: baseUrl + "api/v1/admin/generateAdminID",
+        method: "GET",
+        success: function (res) {
+            $('#txtId').val(res.data);
+        }
+    });
 }
 
+// generate Customer IDs
 function generateCustomerId() {
+    $.ajax({
+        url: baseUrl + "api/v1/customer/generateCustomerId",
+        method: "GET",
+        success: function (res) {
+            $('#txtId').val(res.data);
+        }
+    })
+}
 
+
+$('#inputName,#inputAddress,#inputContactNo,#inputNIC,#inputDrivingLicence,#inputEmail,#inputUserName,#inputPassword').on('keyup', function (event) {
+    if (event.key == "Enter") {
+        checkIfSignUpUserFormValid();
+    }
+});
+
+// signup validation
+function checkIfSignUpUserFormValid() {
+    var name = $('#inputName').val();
+    if (regName.test(name)) {
+        $('#inputContactNo').focus();
+        var contactNo = $('#inputContactNo').val();
+        if (regContactNo.test(contactNo)) {
+            $('#inputAddress').focus();
+            var address = $('#inputAddress').val();
+            if (regAddress.test(address)) {
+                $('#inputEmail').focus();
+                var email = $('#inputEmail').val();
+                if (regEmail.test(email)) {
+                    let usertype = $("#inputUserType").find('option:selected').text();
+                    if (usertype === "Customer") {
+                        $('#inputDrivingLicence').focus();
+                        var drivingLicence = $('#inputDrivingLicence').val();
+                        if (regDrivingLicenceNo.test(drivingLicence)) {
+                            $('#inputNIC').focus();
+                            var nicNo = $('#inputNIC').val();
+                            if (regNicNo.test(nicNo)) {
+                                $('#inputUserName').focus();
+                                var username = $('#inputUserName').val();
+                                if (regLoginUsername.test(username)) {
+                                    $('#inputPassword').focus();
+                                    var password = $('#inputPassword').val();
+                                    if (regLoginPassword.test(password)) {
+                                        if ($('#inputfile1').val() != "" && $('#inputfile2').val() != "" && $('#inputfile3').val() != "") {
+                                            let res = confirm("Do you want to add this customer?");
+                                            if (res) {
+                                                addCustomer();
+                                            }
+                                        } else {
+                                            alert("Please fill all fields of customer...")
+                                        }
+                                    } else {
+                                        $('#inputPassword').focus();
+                                    }
+                                } else {
+                                    $('#inputUserName').focus();
+                                }
+                            } else {
+                                $('#inputNIC').focus();
+                            }
+                        } else {
+                            $('#inputDrivingLicence').focus();
+                        }
+                    } else if (usertype === "Admin") {
+                        $('#inputUserName').focus();
+                        var username = $('#inputUserName').val();
+                        if (regLoginUsername.test(username)) {
+                            $('#inputPassword').focus();
+                            var password = $('#inputPassword').val();
+                            if (regLoginPassword.test(password)) {
+                                let res = confirm("Do you want to add this admin?");
+                                if (res) {
+                                    addAdmin();
+                                }
+                            } else {
+                                $('#inputPassword').focus();
+                            }
+                        } else {
+                            $('#inputUserName').focus();
+                        }
+
+                    }
+                } else {
+                    $('#inputEmail').focus();
+                }
+            } else {
+                $('#inputAddress').focus();
+            }
+        } else {
+            $('#inputContactNo').focus();
+        }
+    } else {
+        $('#inputName').focus();
+    }
 }
 
