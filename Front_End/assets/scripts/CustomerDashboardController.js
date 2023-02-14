@@ -754,3 +754,53 @@ function addAdvancedPayment(carRent, customer) {
         }
     })
 }
+
+
+//-------- Booking Responses--------------
+// btn cancel rental
+$('#btnCancleRental').click(function () {
+    clearCarRentFields();
+    loadMyCarRentsToTable($('#txtCustId').val());
+    generateRentId();
+    generatePaymentId();
+})
+
+$('#btnDeleteRental').click(function () {
+    if ($('#txtRentId').val() != "") {
+        if ($('#txtRentStatus').val() === "Pending") {
+            let res = confirm("Do you want to delete this booking?");
+            if (res) {
+                cancleRental();
+            }
+        } else {
+            alert("You can't delete this booking...");
+        }
+    } else {
+        alert("Please select a rental")
+    }
+})
+
+
+// function for cancel rental
+function cancleRental() {
+    let rentId = $('#txtRentId').val();
+    let licenceNo = $('#txtLicenceNo').val();
+    let registrationNo = $('#txtRegistrationNo').val();
+    let customerId = $('#txtRentCustId').val();
+    let status = "Cancelled";
+
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/" + rentId + "/" + status,
+        method: "PUT",
+        success: function (res) {
+            deletePayment(rentId, licenceNo, registrationNo, customerId);
+            swal({
+                title: "Confirmation",
+                text: "Booking Canceled...",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
