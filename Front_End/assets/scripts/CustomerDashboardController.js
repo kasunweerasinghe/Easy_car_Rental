@@ -857,3 +857,8 @@ function updateDriverStatusByLicenceNo(licenceNo) {
         }
     })
 }
+
+// clear rental details
+$('#btnClearRental').click(function () {
+    clearCarRentResponseFields();
+})
