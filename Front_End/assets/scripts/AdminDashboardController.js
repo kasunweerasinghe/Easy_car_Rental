@@ -459,3 +459,75 @@ function checkFreeKmForDuration() {
         return false;
     }
 }
+
+
+// lose damage wavier
+$('#txtLossDamageWaiver').on('keyup', function (event) {
+    var lossDamageWaiver = $('#txtLossDamageWaiver').val();
+    checkLossDamageWaiver();
+    if (event.key === "Enter") {
+        if (regLossDamageWaiver.test(lossDamageWaiver)) {
+            $('#txtPriceForExtraKm').focus();
+        } else {
+            $('#txtLossDamageWaiver').focus();
+        }
+    }
+});
+
+
+// Check car Lose Damage Wavier
+function checkLossDamageWaiver() {
+    var lossDamageWaiver = $('#txtLossDamageWaiver').val();
+    if (regLossDamageWaiver.test(lossDamageWaiver)) {
+        $("#txtLossDamageWaiver").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtLossDamageWaiver").css('border', '3px solid red').focus();
+        return false;
+    }
+}
+
+
+// price for extra km
+$('#txtPriceForExtraKm').on('keyup', function (event) {
+    var priceForExtraKm = $('#txtPriceForExtraKm').val();
+    checkPriceForExtraKm();
+    if (event.key === "Enter") {
+        if (regPriceForExtraKm.test(priceForExtraKm)) {
+            $('#txtCompleteKm').focus();
+        } else {
+            $('#txtPriceForExtraKm').focus();
+        }
+    }
+});
+
+
+// Check car Price for Extra Km
+function checkPriceForExtraKm() {
+    var priceForExtraKm = $('#txtPriceForExtraKm').val();
+    if (regPriceForExtraKm.test(priceForExtraKm)) {
+        $("#txtPriceForExtraKm").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtPriceForExtraKm").css('border', '3px solid red').focus();
+        return false;
+    }
+}
+
+// car complete km
+$('#txtCompleteKm').on('keyup', function () {
+    checkCompleteKm();
+});
+
+
+// Check car Complete Km
+function checkCompleteKm() {
+    var completeKm = $('#txtCompleteKm').val();
+    if (regCompleteKm.test(completeKm)) {
+        $("#txtCompleteKm").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtCompleteKm").css('border', '3px solid red').focus();
+        return false;
+    }
+}
