@@ -408,7 +408,52 @@ $('#cmbRegistrationNo').change(function () {
 })
 
 function setCarDataToFields(car) {
+    $('#divCarFrontView').empty();
+    $('#divCarBackView').empty();
+    $('#divCarSideView').empty();
+    $('#divCarInteriorView').empty();
 
+    $('#txtCarBrand').val(car.brand);
+    $('#txtCarColor').val(car.color);
+    $('#txtCarFuel').val(car.fuelType);
+    $('#txtCarTransmission').val(car.transmissionType);
+    $('#txtCarNoOfPassengers').val(car.noOfPassengers);
+    $('#txtCarDailyRate').val(car.dailyRate);
+    $('#txtCarMonthlyRate').val(car.monthlyRate);
+    $('#txtCarFreeKmForPrice').val(car.freeKmForPrice);
+    $('#txtCarFreeKmForDuration').val(car.freeKmForDuration);
+    $('#txtCarLossDamageWavier').val(car.lossDamageWaiver);
+    $('#txtCarPriceForExtraKm').val(car.priceForExtraKm);
+    $('#txtCarCompleteKm').val(car.completeKm);
+
+
+    let frontViewPath = car.frontView;
+    let frontViewImg = frontViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages/Cars/")[1];
+    let FrontViewImgSrc = "assets/savedImages/Cars" + frontViewImg;
+
+    let backViewPath = car.backView;
+    let backViewImg = backViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages/Cars/")[1];
+    let backViewImgSrc = "assets/savedImages/Cars" + backViewImg;
+
+    let sideViewPath = car.sideView;
+    let sideViewImg = sideViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages/Cars/")[1];
+    let sideViewImgSrc = "assets/savedImages/Cars" + sideViewImg;
+
+    let interiorViewPath = car.internalView;
+    let interiorViewImg = interiorViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages/Cars/")[1];
+    let interiorViewImgSrc = "assets/savedImages/Cars" + interiorViewImg;
+
+    let fvImg = `<img src=${FrontViewImgSrc} alt="NIC Front" style="background-size: cover;width: 100%;height: 100%">`;
+    $('#divCarFrontView').append(fvImg);
+
+    let bvImg = `<img src=${backViewImgSrc} alt="NIC Front" style="background-size: cover;width: 100%;height: 100%">`;
+    $('#divCarBackView').append(bvImg);
+
+    let svImg = `<img src=${sideViewImgSrc} alt="NIC Front" style="background-size: cover;width: 100%;height: 100%">`;
+    $('#divCarSideView').append(svImg);
+
+    let ivImg = `<img src=${interiorViewImgSrc} alt="NIC Front" style="background-size: cover;width: 100%;height: 100%">`;
+    $('#divCarInteriorView').append(ivImg);
 }
 
 function clearRentalFields() {
