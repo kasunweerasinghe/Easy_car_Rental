@@ -219,6 +219,7 @@ function checkRegNo() {
     }
 }
 
+
 // car brand
 $('#txtBrand').on('keyup', function (event) {
     var brand = $('#txtBrand').val();
@@ -233,6 +234,7 @@ $('#txtBrand').on('keyup', function (event) {
 });
 
 
+
 // Check car Brand validation
 function checkBrand() {
     var brand = $('#txtBrand').val();
@@ -242,6 +244,25 @@ function checkBrand() {
         return true;
     } else {
         $("#txtBrand").css('border', '3px solid red').focus();
+        return false;
+    }
+}
+
+
+// cmb car type
+$('#cmbtype').click(function () {
+    checkType();
+});
+
+
+// check Car Type from cmb validation
+function checkType() {
+    var type = $('#cmbtype').find('option:selected').text();
+    if (type != "- Select Car Type -") {
+        $("#cmbtype").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#cmbtype").css('border', '3px solid red').focus();
         return false;
     }
 }
