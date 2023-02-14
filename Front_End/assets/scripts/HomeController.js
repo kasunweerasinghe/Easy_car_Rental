@@ -17,9 +17,9 @@ function loadCarDetails() {
 
                     let path = car.frontView
                     console.log(path);
-                    let img = path.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages/Cars/")[1];
+                    let img = path.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages//Cars//")[1];
                     console.log(img);
-                    let imgSrc = "assets/savedImages/Cars" + img;
+                    let imgSrc = "assets/savedImages//Cars//" + img;
 
                     let div = `<div class="col" id="card10" data-aos="fade-up" data-aos-anchor-placement="top-bottom"
                      data-aos-delay="500">
