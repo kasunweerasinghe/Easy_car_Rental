@@ -539,3 +539,32 @@ function clearRentalDriverFields() {
     $('#txtDriverContactNo').val("");
     $('#txtDriverNIC').val("");
 }
+
+
+function generatePaymentId() {
+    $.ajax({
+        url: "http://localhost:8080/Back_End_war/api/v1/payment/generatePaymentId",
+        method: "GET",
+        success: function (res) {
+            $('#txtPaymentId').val(res.data);
+        }
+    })
+}
+
+// Advance dAmount field
+$('#txtPaymentAmount').on('keyup', function (event) {
+    checkAdvancedAmount();
+});
+
+
+// check Advance dAmount validation function
+function checkAdvancedAmount() {
+    let amount = $('#txtPaymentAmount').val();
+    if (regAmount.test(amount)) {
+        $('#txtPaymentAmount').css('border', '2px solid green');
+        return true;
+    } else {
+        $('#txtPaymentAmount').css('border', '2px solid red');
+        return false;
+    }
+}
