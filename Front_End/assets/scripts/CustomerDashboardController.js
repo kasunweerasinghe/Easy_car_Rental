@@ -541,6 +541,9 @@ function clearRentalDriverFields() {
 }
 
 
+
+//Payment Details
+// generate payment id
 function generatePaymentId() {
     $.ajax({
         url: "http://localhost:8080/Back_End_war/api/v1/payment/generatePaymentId",
@@ -567,4 +570,110 @@ function checkAdvancedAmount() {
         $('#txtPaymentAmount').css('border', '2px solid red');
         return false;
     }
+}
+
+
+// send button
+$('#sendRequest').click(function () {
+    let regNo = $('#cmbRegistrationNo').find('option:selected').text();
+    if (regNo != "" && regNo != "-Select Registration No-" && $('#txtCarPickupDate').val()!="" && $('#txtCarReturnDate').val()!="") {
+        let custId = $('#txtCustId').val();
+        searchCustomerById(custId);
+    } else {
+        alert("Please fill rental fields");
+    }
+});
+
+// search customer by id
+function searchCustomerById(customerId) {
+    $.ajax({
+        url: baseUrl + "api/v1/customer/" + customerId,
+        method: "GET",
+        success: function (res) {
+            let customer = res.data;
+            searchCarByRegNo(customer);
+        }
+    });
+}
+
+// search car hy reg no
+function searchCarByRegNo(customer) {
+    let registrationNo = $('#cmbRegistrationNo').find('option:selected').text();
+    $.ajax({
+        url: baseUrl + "api/v1/car/" + registrationNo,
+        method: "GET",
+        success: function (res) {
+            let car = res.data;
+            searchDriverByLicenceNo(customer, car);
+        }
+    })
+}
+
+// search driver by license no
+function searchDriverByLicenceNo(customer, car) {
+    let licenceNo = $('#txtDriverLicenceNo').val();
+    if ($('#txtDriverLicenceNo').val() === "") {
+        licenceNo = null;
+    }
+    if (licenceNo != null) {
+        $.ajax({
+            url: baseUrl + "api/v1/driver/" + licenceNo,
+            method: "GET",
+            success: function (res) {
+                let driver = res.data;
+                console.log(res.data);
+                addCarRent(customer, car, driver);
+            }
+        })
+    } else {
+        addCarRent(customer, car, null);
+    }
+}
+
+// add car rent
+function addCarRent(customer, car, driver) {
+
+    let rentId = $('#txtCarRentId').val();
+    let today = $('#txtCarTodayDate').val();
+    let pickupDate = $('#txtCarPickupDate').val();
+    let returnDate = $('#txtCarReturnDate').val();
+    let status = "Pending";
+    var carRent = {
+        rentId: rentId,
+        date: today,
+        pickUpDate: pickupDate,
+        returnDate: returnDate,
+        status: status,
+        customer: customer,
+        car: car,
+        driver: driver
+    }
+
+
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(carRent),
+        success: function (res) {
+            getLastRent(rentId, customer);
+
+            swal({
+                title: "Confirmation",
+                text: "Rental Request send successfully",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        },
+        error: function (ob) {
+            swal({
+                title: "Error",
+                text: "Error Occured.Please Try Again.",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
 }
