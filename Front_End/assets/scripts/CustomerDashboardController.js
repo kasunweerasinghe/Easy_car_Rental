@@ -31,9 +31,9 @@ let regAmount = /^[0-9.]{1,}$/;
 
 function getLastLoginUser() {
     $.ajax({
-        url: "http://localhost:8080/Back_End_war//api/v1/login/getLastLogin",
+        url: "http://localhost:8080/Back_End_war/api/v1/login/getLastLogin",
         method: "GET",
-        success:function (res){
+        success: function (res) {
             let login = res.data;
             console.log(login);
             getAllUserData(login.username, login.password)
@@ -41,7 +41,251 @@ function getLastLoginUser() {
 
     });
 
-    function getAllUserData(){
+    function getAllUserData(username, password) {
+        $.ajax({
+            url: "http://localhost:8080/Back_End_war/api/v1/customer/set/" + username + "/" + password,
+            method: "GET",
+            success: function (res) {
+                let customer = res.data;
+                setCustomerDetails(customer);
+                loadMyCarRentsToTable(customer.customerId);
+            }
+        })
+    }
+}
 
+function loadMyAllPayments(customerId) {
+    $('#paymentsTable').empty();
+    $.ajax({
+        url: "http://localhost:8080/Back_End_war/api/v1/payment/getAll/" + customerId,
+        method: "GET",
+        success: function (res) {
+            console.log("Payments");
+            for (let payment of res.data) {
+                console.log(payment);
+                let row = `<tr><td>${payment.paymentId}</td><td>${payment.date}</td><td>${payment.amount}</td><td>${payment.rental.rentId}</td><td>${payment.customer.customerId}</td></tr>`;
+                $('#paymentsTable').append(row);
+            }
+        }
+    })
+}
+
+// bind click event to rent table
+function bindBookingResponsesTableCliskEvents() {
+    $('#bookingResponsesTable>tr').click(function () {
+        let rentId = $(this).children().eq(0).text();
+        let date = $(this).children().eq(1).text();
+        let pickUpDate = $(this).children().eq(2).text();
+        let returnDate = $(this).children().eq(3).text();
+        let regNo = $(this).children().eq(4).text();
+        let custId = $(this).children().eq(5).text();
+        let licenceNo = $(this).children().eq(6).text();
+        let status = $(this).children().eq(7).text();
+
+        $('#txtRentId').val(rentId);
+        $('#txtDate').val(date);
+        $('#txtPickupDate').val(pickUpDate);
+        $('#txtReturnDate').val(returnDate);
+        $('#txtRegistrationNo').val(regNo);
+        $('#txtLicenceNo').val(licenceNo);
+        $('#txtRentStatus').val(status);
+        $('#txtRentCustId').val(custId);
+    })
+}
+
+// set customer fields data
+function setCustomerDetails(customer) {
+    $('#txtCustId').val(customer.customerId);
+    $('#txtCusId').val(customer.customerId);
+    $('#txtCusName').val(customer.name);
+    $('#txtCusAddress').val(customer.address);
+    $('#txtCusEmail').val(customer.email);
+    $('#txtCusContactNo').val(customer.contactNo);
+    $('#txtCusNIC').val(customer.nicNo);
+    $('#txtCusLicenceNo').val(customer.licenceNo);
+    $('#txtCusUsername').val(customer.username);
+}
+
+
+// load rent data into table
+function loadMyCarRentsToTable(customerId) {
+    $('#allCarRentalsTable').empty();
+    $('#bookingResponsesTable').empty();
+
+    $.ajax({
+        url: "http://localhost:8080/Back_End_war/api/v1/CarRent/getMyCarRents/" + customerId,
+        method: "GET",
+        success: function (res) {
+            for (const carRent of res.data) {
+                let licence;
+                if (carRent.driver === null) {
+                    licence = "No Driver";
+                } else {
+                    licence = carRent.driver.licenceNo;
+                }
+                let row = `<tr><td>${carRent.rentId}</td><td>${carRent.date}</td><td>${carRent.pickUpDate}</td><td>${carRent.returnDate}</td><td>${carRent.car.registrationNO}</td><td>${carRent.customer.customerId}</td><td>${licence}</td><td>${carRent.status}</td></tr>`;
+                $('#allCarRentalsTable').append(row);
+                $('#bookingResponsesTable').append(row);
+            }
+            bindBookingResponsesTableCliskEvents();
+            loadMyAllPayments(customerId);
+        }
+    })
+}
+
+// customer name
+$('#txtCusName').on('keyup', function (event) {
+    checkCusName();
+    if (event.key === "Enter") {
+        if (regName.test($('#txtCusName').val())) {
+            $('#txtCusAddress').focus();
+        } else {
+            $('#txtCusName').focus();
+        }
+    }
+})
+
+
+// function to check customer name validation
+function checkCusName() {
+    let name = $('#txtCusName').val();
+    if (regName.test(name)) {
+        $("#txtCusName").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtCusName").css('border', '2px solid red');
+        return false;
+    }
+}
+
+// customer address
+$('#txtCusAddress').on('keyup', function (event) {
+    checkCusAddress();
+    if (event.key === "Enter") {
+        if (regAddress.test($('#txtCusAddress').val())) {
+            $('#txtCusEmail').focus();
+        } else {
+            $('#txtCusAddress').focus();
+        }
+    }
+})
+
+
+// function to check customer address validation
+function checkCusAddress() {
+    let address = $('#txtCusAddress').val();
+    if (regAddress.test(address)) {
+        $("#txtCusAddress").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtCusAddress").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// customer email
+$('#txtCusEmail').on('keyup', function (event) {
+    checkCusEmail();
+    if (event.key === "Enter") {
+        if (regEmail.test($('#txtCusEmail').val())) {
+            $('#txtCusContactNo').focus();
+        } else {
+            $('#txtCusEmail').focus();
+        }
+    }
+})
+
+
+// function to check customer email validation
+function checkCusEmail() {
+    let email = $('#txtCusEmail').val();
+    if (regEmail.test(email)) {
+        $("#txtCusEmail").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtCusEmail").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// customer contact no
+$('#txtCusContactNo').on('keyup', function (event) {
+    checkCusContact();
+    if (event.key === "Enter") {
+        if (regContactNo.test($('#txtCusContactNo').val())) {
+            $('#txtCusNIC').focus();
+        } else {
+            $('#txtCusContactNo').focus();
+        }
+    }
+})
+
+
+// function to check customer contact no validation
+function checkCusContact() {
+    let contact = $('#txtCusContactNo').val();
+    if (regContactNo.test(contact)) {
+        $("#txtCusContactNo").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtCusContactNo").css('border', '2px solid red');
+        return false;
+    }
+}
+
+// customer nic
+$('#txtCusNIC').on('keyup', function (event) {
+    checkCusNIC();
+    if (event.key === "Enter") {
+        if (regNicNo.test($('#txtCusNIC').val())) {
+            $('#txtCusLicenceNo').focus();
+        } else {
+            $('#txtCusNIC').focus();
+        }
+    }
+})
+
+
+// function to check customer NIC validation
+function checkCusNIC() {
+    let nic = $('#txtCusNIC').val();
+    if (regNicNo.test(nic)) {
+        $("#txtCusNIC").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtCusNIC").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// customer license
+$('#txtCusLicenceNo').on('keyup', function (event) {
+    checkCusLicence();
+    if (event.key === "Enter") {
+        if (regLicenceNo.test($('#txtCusLicenceNo').val())) {
+            let res = confirm("Do you want to update your details?");
+            if (res) {
+                updateCustomer();
+            }
+        } else {
+            $('#txtCusLicenceNo').focus();
+        }
+    }
+})
+
+
+
+// function to check customer license validation
+function checkCusLicence() {
+    let licence = $('#txtCusLicenceNo').val();
+    if (regLicenceNo.test(licence)) {
+        $("#txtCusLicenceNo").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtCusLicenceNo").css('border', '2px solid red');
+        return false;
     }
 }
