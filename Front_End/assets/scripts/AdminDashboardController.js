@@ -352,3 +352,55 @@ function checkColor() {
     }
 }
 
+// daily rate
+$('#txtDailyRate').on('keyup', function (event) {
+    var dailyRate = $('#txtDailyRate').val();
+    checkDailyRate();
+    if (event.key === "Enter") {
+        if (regDailyRate.test(dailyRate)) {
+            $('#txtMonthlyRate').focus();
+        } else {
+            $('#txtDailyRate').focus();
+        }
+    }
+});
+
+
+// Check car Daily Rate
+function checkDailyRate() {
+    var dailyRate = $('#txtDailyRate').val();
+    if (regDailyRate.test(dailyRate)) {
+        $("#txtDailyRate").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtDailyRate").css('border', '3px solid red').focus();
+        return false;
+    }
+}
+
+
+// car monthly rate
+$('#txtMonthlyRate').on('keyup', function (event) {
+    var monthlyRate = $('#txtMonthlyRate').val();
+    checkMonthlyRate();
+    if (event.key === "Enter") {
+        if (regMonthlyRate.test(monthlyRate)) {
+            $('#txtFreeKmForPrice').focus();
+        } else {
+            $('#txtMonthlyRate').focus();
+        }
+    }
+});
+
+
+// Check car Monthly Rate
+function checkMonthlyRate() {
+    var monthlyRate = $('#txtMonthlyRate').val();
+    if (regMonthlyRate.test(monthlyRate)) {
+        $("#txtMonthlyRate").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtMonthlyRate").css('border', '3px solid red').focus();
+        return false;
+    }
+}
