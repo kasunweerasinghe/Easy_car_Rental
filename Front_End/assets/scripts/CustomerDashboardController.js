@@ -339,6 +339,25 @@ function updateCustomer() {
 }
 
 
+// btn update
+$('#btnUpdateCustomer').click(function () {
+    if ($('#txtCusId').val() != "") {
+        let res = confirm("Do you want to update your details?");
+        if (res) {
+            updateCustomer();
+        }
+    }
+})
+
+
+// btn refresh
+$('#btnRefreshCustomer').click(function () {
+    getLastLoginUser();
+    clearCustomerDetails();
+})
+
+
+
 // clear customer data fields
 function clearCustomerDetails() {
     $('#txtCusId').css('border','2px solid #ced4da');
