@@ -770,5 +770,43 @@ function loadAllCars() {
 }
 
 function bindCarTableClickEvents(){
+    $('#carTable>tr').click(function () {
+        let regNo = $(this).children().eq(0).text();
+        let brand = $(this).children().eq(1).text();
+        let type = $(this).children().eq(2).text();
+        let passengers = $(this).children().eq(3).text();
+        let transmission = $(this).children().eq(4).text();
+        let fuel = $(this).children().eq(5).text();
+        let color = $(this).children().eq(6).text();
+        let daily = $(this).children().eq(7).text();
+        let monthly = $(this).children().eq(8).text();
+        let kmForPrice = $(this).children().eq(9).text();
+        let kmForDura = $(this).children().eq(10).text();
+        let ldw = $(this).children().eq(11).text();
+        let extraKm = $(this).children().eq(12).text();
+        let completeKm = $(this).children().eq(13).text();
 
+        $("#saveCar").prop('disabled', true);
+        $("#updateCar").prop('disabled', false);
+        $("#delCar").prop('disabled', false);
+        $("#imgFrontView").prop('disabled', true);
+        $("#imgBackView").prop('disabled', true);
+        $("#imgSideView").prop('disabled', true);
+        $("#imgInteriorView").prop('disabled', true);
+
+        $('#txtRegNo').val(regNo);
+        $('#txtBrand').val(brand);
+        $('#cmbtype').find('option:selected').text(type);
+        $('#txtNoOfPassengers').val(passengers);
+        $('#cmbTransmissionType').find('option:selected').text(transmission);
+        $('#cmbfuel').find('option:selected').text(fuel);
+        $('#cmbColor').find('option:selected').text(color);
+        $('#txtDailyRate').val(daily);
+        $('#txtMonthlyRate').val(monthly);
+        $('#txtFreeKmForPrice').val(kmForPrice);
+        $('#txtFreeKmForDuration').val(kmForDura);
+        $('#txtLossDamageWaiver').val(ldw);
+        $('#txtPriceForExtraKm').val(extraKm);
+        $('#txtCompleteKm').val(completeKm);
+    });
 }
