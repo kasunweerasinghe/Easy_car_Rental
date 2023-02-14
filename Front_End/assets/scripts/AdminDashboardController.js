@@ -12,3 +12,23 @@ let regFreeKmForDuration = /^[0-9.]{1,}$/;
 let regLossDamageWaiver = /^[0-9.]{1,}$/;
 let regPriceForExtraKm = /^[0-9.]{1,}$/;
 let regCompleteKm = /^[0-9.]{1,}$/;
+
+
+//Customer
+let regCustomerId = /^(C00-)[0-9]{4}$/;
+
+// Driver
+let regLicenceNo = /^(B)[0-9]{7}$/;
+let regLoginUsername = /^[A-z0-9]{6,10}$/;
+let regLoginPassword = /^[A-z0-9@#$%&!*]{8,}$/;
+let regName = /^[A-z .]{3,}$/;
+let regAddress = /^[A-z ,.0-9]{3,}$/;
+let regContactNo = /^(0)[1-9][0-9][0-9]{7}$/;
+let regNicNo = /^[0-9]{9}(V)|[0-9]{12}$/;
+
+//Rental
+let regRentId = /^(RT0-)[0-9]{4}$/;
+let regDetails = /^[A-z0-9 &.,/]{4,}$/;
+
+$('#txtToday').val(today);
+$('#txtTodayDate').val(today);
