@@ -314,4 +314,22 @@ function checkTransmission() {
 }
 
 
+// Fuel Type
+$('#cmbfuel').click(function () {
+    checkFuel();
+})
+
+
+// Check Fuel Type validation
+function checkFuel() {
+    var fuel = $('#cmbfuel').find('option:selected').text();
+    if (fuel != "- Select Fuel Type -") {
+        $("#cmbfuel").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#cmbfuel").css('border', '3px solid red').focus();
+        return false;
+    }
+}
+
 
