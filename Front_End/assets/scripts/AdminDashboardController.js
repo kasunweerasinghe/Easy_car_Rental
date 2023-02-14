@@ -1,4 +1,4 @@
-$(function (){
+$(function () {
     // Disable Car update/delete buttons
     $("#updateCar").prop('disabled', true);
     $("#delCar").prop('disabled', true);
@@ -6,6 +6,17 @@ $(function (){
     // Disable Driver update/delete buttons
     $("#btnUpdateDriver").prop('disabled', true);
     $("#btnDeleteDriver").prop('disabled', true);
+
+    // Admin Dashboard Section function
+    getRegisterCustomersCount();
+    getTodayBookingsCount();
+    getAvailableCarCount();
+    getReservedCarsCount();
+    getAvailableDriverCount();
+    getOccupiedDriverCount();
+    loadTodayBookings();
+
+
 });
 
 let today = new Date().toISOString().slice(0, 10);
@@ -42,3 +53,31 @@ let regDetails = /^[A-z0-9 &.,/]{4,}$/;
 
 $('#txtToday').val(today);
 $('#txtTodayDate').val(today);
+
+function getRegisterCustomersCount() {
+    $.ajax({
+        url: baseUrl + "api/v1/customer/count",
+        method: "GET",
+        success: function (res) {
+
+            if (res.data != 0) {
+                if (res.data < 10) {
+                    $('#countCust').text("0" + res.data);
+                } else {
+                    $('#countCust').text(res.data);
+                }
+            } else {
+                $('#countCust').text("00");
+            }
+
+        }
+    });
+}
+
+
+
+
+
+
+
+
