@@ -255,7 +255,7 @@ $('#cmbtype').click(function () {
 });
 
 
-// check Car Type from cmb validation
+// Check car Type  validation
 function checkType() {
     var type = $('#cmbtype').find('option:selected').text();
     if (type != "- Select Car Type -") {
@@ -263,6 +263,34 @@ function checkType() {
         return true;
     } else {
         $("#cmbtype").css('border', '3px solid red').focus();
+        return false;
+    }
+}
+
+
+// no of passengers
+$('#txtNoOfPassengers').on('keyup', function (event) {
+    var noOfPassengers = $('#txtNoOfPassengers').val();
+    checkNoOfPassengers();
+    if (event.key === "Enter") {
+        if (regNoOfPassengers.test(noOfPassengers)) {
+            $('#cmbTransmissionType').focus();
+        } else {
+            $('#txtNoOfPassengers').focus();
+        }
+    }
+});
+
+
+// Check No Of passengers validation
+function checkNoOfPassengers() {
+    var noOfPassengers = $('#txtNoOfPassengers').val();
+
+    if (regNoOfPassengers.test(noOfPassengers)) {
+        $("#txtNoOfPassengers").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtNoOfPassengers").css('border', '3px solid red').focus();
         return false;
     }
 }
