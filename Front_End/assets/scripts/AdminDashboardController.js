@@ -54,6 +54,8 @@ let regDetails = /^[A-z0-9 &.,/]{4,}$/;
 $('#txtToday').val(today);
 $('#txtTodayDate').val(today);
 
+
+// Admin Dashboard Section function
 function getRegisterCustomersCount() {
     $.ajax({
         url: baseUrl + "api/v1/customer/count",
@@ -189,6 +191,32 @@ function loadTodayBookings() {
 }
 
 
+
+// Car Reg no
+$('#txtRegNo').on('keyup', function (event) {
+    var regNo = $('#txtRegNo').val();
+    checkRegNo();
+    if (event.key === "Enter") {
+        if (regRegNo.test(regNo)) {
+            $('#txtBrand').focus();
+        } else {
+            $('#txtRegNo').focus();
+        }
+    }
+});
+
+// Check car Reg no validation
+function checkRegNo() {
+    var regNo = $('#txtRegNo').val();
+
+    if (regRegNo.test(regNo)) {
+        $("#txtRegNo").css('border', '3px solid green').focus();
+        return true;
+    } else {
+        $("#txtRegNo").css('border', '3px solid red').focus();
+        return false;
+    }
+}
 
 
 
