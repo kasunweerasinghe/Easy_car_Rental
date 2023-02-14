@@ -806,7 +806,7 @@ function cancleRental() {
 }
 
 
-// clear car rental renponse fields
+// clear car rental response fields
 function clearCarRentResponseFields() {
     $('#txtRentId').val("");
     $('#txtDate').val("");
@@ -816,4 +816,33 @@ function clearCarRentResponseFields() {
     $('#txtLicenceNo').val("");
     $('#txtRentStatus').val("");
     $('#txtRentCustId').val("");
+}
+
+
+function deletePayment(rentId, licenceNo, registrationNo, customerId) {
+    $.ajax({
+        url: baseUrl + "api/v1/payment/delete/" + rentId,
+        method: "DELETE",
+        success: function (res) {
+            console.log("Deleted Payment");
+            let status = "Available";
+            updateCarStatusByRegNo(status, registrationNo);
+            updateDriverStatusByLicenceNo(licenceNo);
+            loadMyCarRentsToTable(customerId);
+            generateRentId();
+            generatePaymentId();
+            clearCarRentResponseFields();
+        }
+    });
+}
+
+// add update car status
+function updateCarStatusByRegNo(status, registrationNo) {
+    $.ajax({
+        url: baseUrl + "api/v1/car/updateCarStatus/" + registrationNo + "/" + status,
+        method: "PUT",
+        success: function (res) {
+            console.log("Update Car Status");
+        }
+    })
 }
