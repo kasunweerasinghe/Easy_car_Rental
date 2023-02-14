@@ -16,6 +16,9 @@ $(function () {
     getOccupiedDriverCount();
     loadTodayBookings();
 
+    // Load All Car Function
+    loadAllCars();
+
 
 });
 
@@ -883,3 +886,91 @@ function updateCar() {
         }
     })
 }
+
+
+// delete car
+$('#delCar').click(function () {
+    deleteCar();
+    clearAddCarFields();
+})
+
+
+// delete Car function
+function deleteCar() {
+    let registrationNo = $('#txtRegNo').val();
+    $.ajax({
+        url: baseUrl + "api/v1/car?registrationNo=" + registrationNo,
+        method: "DELETE",
+        success: function (res) {
+            loadAllCars();
+            swal({
+                title: "Confirmation!",
+                text: "Car Deleted Successfully",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        },
+        error: function (ob) {
+            swal({
+                title: "Error",
+                text: "Car Not Deleted Successfully",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// search car
+$('#searchCar').on('keyup', function (event) {
+    checkSearchCar();
+    if (event.key === "Enter") {
+        searchCar();
+    }
+})
+
+
+// check search car
+function checkSearchCar() {
+    var regNo = $('#searchCar').val();
+    if (regRegNo.test(regNo)) {
+        $("#searchCar").css('border', '3px solid green');
+        return true;
+    } else {
+        $("#searchCar").css('border', '3px solid red');
+        return false;
+    }
+}
+
+
+// Search Car
+function searchCar() {
+    let registrationNo = $('#searchCar').val();
+    $.ajax({
+        url: baseUrl + "api/v1/car/" + registrationNo,
+        method: "GET",
+        success: function (res) {
+            let car = res.data;
+            $('#carTable').empty();
+            let row = `<tr><td>${car.registrationNO}</td><td>${car.brand}</td><td>${car.type}</td><td>${car.noOfPassengers}</td><td>${car.transmissionType}</td><td>${car.fuelType}</td><td>${car.color}</td><td>${car.dailyRate}</td><td>${car.monthlyRate}</td><td>${car.freeKmForPrice}</td><td>${car.freeKmForDuration}</td><td>${car.lossDamageWaiver}</td><td>${car.priceForExtraKm}</td><td>${car.completeKm}</td><td>${car.status}</td></tr>`
+            $('#carTable').append(row);
+        },
+        error: function (ob) {
+            loadAllCars();
+            swal({
+                title: "Error",
+                text: "Car Not Found",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// ----------------------------------------------------------------------------------------------
+// CUSTOMER Section
