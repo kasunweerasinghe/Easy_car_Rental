@@ -29,6 +29,9 @@ let regRentId = /^(RT0-)[0-9]{4}$/;
 let regEmail = /^[a-z0-9]{3,}(@)[a-z]{3,}(.)[a-z]{2,3}$/;
 let regAmount = /^[0-9.]{1,}$/;
 
+
+// ---------------PROFILE-----------------------------
+// My Personal Details
 function getLastLoginUser() {
     $.ajax({
         url: "http://localhost:8080/Back_End_war/api/v1/login/getLastLogin",
@@ -70,7 +73,7 @@ function loadMyAllPayments(customerId) {
     })
 }
 
-// bind click event to rent table
+// bind click event to my car rent table
 function bindBookingResponsesTableCliskEvents() {
     $('#bookingResponsesTable>tr').click(function () {
         let rentId = $(this).children().eq(0).text();
@@ -371,6 +374,7 @@ function clearCustomerDetails() {
 
 
 // ---------------BOOKING REQUEST-----------------------------
+// Car and Driver Details
 // get car type from combo
 $('#cmbType').change(function () {
     let type = $('#cmbType').find('option:selected').text();
@@ -474,4 +478,64 @@ function clearRentalFields() {
     $('#txtCarLossDamageWavier').val("");
     $('#txtCarPriceForExtraKm').val("");
     $('#txtCarCompleteKm').val("");
+}
+
+
+
+// ---------------BOOKING REQUEST-----------------------------
+//Rental Details
+
+// generate rental Id
+function generateRentId() {
+    $.ajax({
+        url: "http://localhost:8080/Back_End_war/api/v1/CarRent/generateRentId",
+        method: "GET",
+        success: function (res) {
+            $('#txtCarRentId').val(res.data);
+        }
+    })
+}
+
+// need a driver check box
+$('#needDriver').click(function () {
+    if ($(this).is(":checked")) {
+        searchRandomDriverForRent();
+    } else {
+        clearRentalDriverFields();
+    }
+})
+
+// search random driver
+function searchRandomDriverForRent() {
+    $.ajax({
+        url: baseUrl + "api/v1/driver/getRandomDriver",
+        method: "GET",
+        success: function (res) {
+            for (let driver of res.data) {
+                $('#txtDriverLicenceNo').val(driver.licenceNo);
+                $('#txtDriverName').val(driver.name);
+                $('#txtDriverAddress').val(driver.address);
+                $('#txtDriverContactNo').val(driver.contactNo);
+                $('#txtDriverNIC').val(driver.nicNo);
+            }
+        },
+        error: function (ob) {
+            swal({
+                title: "Error!",
+                text: "Drivers are not available in this time.Please try again shortly",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+// clear rental details
+function clearRentalDriverFields() {
+    $('#txtDriverLicenceNo').val("");
+    $('#txtDriverName').val("");
+    $('#txtDriverAddress').val("");
+    $('#txtDriverContactNo').val("");
+    $('#txtDriverNIC').val("");
 }
