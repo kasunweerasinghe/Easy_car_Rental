@@ -289,3 +289,63 @@ function checkCusLicence() {
         return false;
     }
 }
+
+// update Customer
+function updateCustomer() {
+    let customerId = $('#txtCusId').val();
+    let name = $('#txtCusName').val();
+    let address = $('#txtCusAddress').val();
+    let email = $('#txtCusEmail').val();
+    let contact = $('#txtCusContactNo').val();
+    let nic = $('#txtCusNIC').val();
+    let licenceNo = $('#txtCusLicenceNo').val();
+
+    var customer = {
+        customerId: customerId,
+        name: name,
+        address: address,
+        contactNo: contact,
+        email: email,
+        nicNo: nic,
+        licenceNo: licenceNo
+    }
+
+    $.ajax({
+        url: baseUrl + "api/v1/customer",
+        method: "PUT",
+        contentType: "application/json",
+        data: JSON.stringify(customer),
+        success: function (res) {
+            getLastLoginUser();
+            clearCustomerDetails();
+            swal({
+                title: "Confirmation!",
+                text: "Customer Updated Successfully",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        },
+        error: function (ob) {
+            swal({
+                title: "Error!",
+                text: "Customer Not Updated Successfully",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// clear customer data fields
+function clearCustomerDetails() {
+    $('#txtCusId').css('border','2px solid #ced4da');
+    $('#txtCusName').css('border','2px solid #ced4da');
+    $('#txtCusAddress').css('border','2px solid #ced4da');
+    $('#txtCusEmail').css('border','2px solid #ced4da');
+    $('#txtCusContactNo').css('border','2px solid #ced4da');
+    $('#txtCusNIC').css('border','2px solid #ced4da');
+    $('#txtCusLicenceNo').css('border','2px solid #ced4da');
+}
