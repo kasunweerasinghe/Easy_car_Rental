@@ -1,3 +1,13 @@
+$(function (){
+    // Disable Car update/delete buttons
+    $("#updateCar").prop('disabled', true);
+    $("#delCar").prop('disabled', true);
+
+    // Disable Driver update/delete buttons
+    $("#btnUpdateDriver").prop('disabled', true);
+    $("#btnDeleteDriver").prop('disabled', true);
+});
+
 let today = new Date().toISOString().slice(0, 10);
 let baseUrl = "http://localhost:8080/Back_End_war/";
 
