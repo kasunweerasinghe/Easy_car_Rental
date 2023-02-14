@@ -677,3 +677,80 @@ function addCarRent(customer, car, driver) {
         }
     })
 }
+
+
+// clear car rent fields
+function clearCarRentFields() {
+    // $('#cmbType').find('option:selected').text("- Select Car Type -");
+    $('#cmbRegistrationNo').find('option:selected').text("");
+    $('#txtCarBrand').val("");
+    $('#txtCarColor').val("");
+    $('#txtCarFuel').val("");
+    $('#txtCarTransmission').val("");
+    $('#txtCarNoOfPassengers').val("");
+    $('#txtCarDailyRate').val("");
+    $('#txtCarMonthlyRate').val("");
+    $('#txtCarFreeKmForPrice').val("");
+    $('#txtCarFreeKmForDuration').val("");
+    $('#txtCarLossDamageWavier').val("");
+    $('#txtCarPriceForExtraKm').val("");
+    $('#txtCarCompleteKm').val("");
+    $('#divCarFrontView').empty();
+    $('#divCarBackView').empty();
+    $('#divCarSideView').empty();
+    $('#divCarInteriorView').empty();
+    $('#txtCarPickupDate').val("");
+    $('#txtCarReturnDate').val("");
+    $('#needDriver').prop('checked', false);
+    $('#txtDriverLicenceNo').val("");
+    $('#txtDriverName').val("");
+    $('#txtDriverAddress').val("");
+    $('#txtDriverContactNo').val("");
+    $('#txtDriverNIC').val("");
+    $('#txtPaymentAmount').val("");
+    $('#txtPaymentAmount').css('border', '1px solid #ced4da');
+}
+
+
+// get last rent function
+function getLastRent(rentId, customer) {
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/" + rentId,
+        method: "GET",
+        success: function (res) {
+            let carRent = res.data;
+            addAdvancedPayment(carRent, customer);
+        }
+    })
+}
+
+// add advance payment
+function addAdvancedPayment(carRent, customer) {
+    let paymentId = $('#txtPaymentId').val();
+    let today = $('#txtCarTodayDate').val();
+    let amount = $('#txtPaymentAmount').val();
+    if ($('#txtPaymentAmount').val() === "") {
+        amount = 0.0;
+    }
+    var payment = {
+        paymentId: paymentId,
+        date: today,
+        amount: amount,
+        rental: carRent,
+        customer: customer
+    }
+
+    $.ajax({
+        url: baseUrl + "api/v1/payment",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(payment),
+        success: function (res) {
+            console.log("Payment Success");
+            loadMyCarRentsToTable(customer.customerId);
+            clearCarRentFields();
+            generateRentId();
+            generatePaymentId();
+        }
+    })
+}
