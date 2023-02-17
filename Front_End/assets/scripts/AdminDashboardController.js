@@ -1041,12 +1041,24 @@ function searchAndLoadCustomerImgs(id) {
             let nicFrontImgSrc = "assets/savedImages//Customers//" + nicFrontImg;
             console.log(nicFrontImgSrc);
 
+            let nicBackPath = customer.nicBackImg;
+            let nicBackImg = nicBackPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages//Customers//")[1];
+            let nicBackImgSrc = "assets/savedImages//Customers//" + nicBackImg;
+
+            let licencePath = customer.licenceImg;
+            let licenceImg = licencePath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages//Customers//")[1];
+            let licenceImgSrc = "assets/savedImages//Customers//" + licenceImg;
+
 
 
             let nicfImg = `<img src=${nicFrontImgSrc} alt="NIC Front" style="background-size: cover;width: 100%;height: 100%">`;
             $('#divNICFrontView').append(nicfImg);
 
+            let nicbImg = `<img src=${nicBackImgSrc} alt="NIC Back" style="background-size: cover;width: 100%;height: 100%">`;
+            $('#divNICBackView').append(nicbImg);
 
+            let licImg = `<img src=${licenceImgSrc} alt="Licence" style="background-size: cover;width: 100%;height: 100%">`;
+            $('#divLicenceImg').append(licImg);
         }
     })
 }
