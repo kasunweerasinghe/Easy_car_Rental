@@ -1026,5 +1026,27 @@ function bindPendingCustomerTblClickEvents() {
 
 // customer nic & license img load into customer data fields
 function searchAndLoadCustomerImgs(id) {
+    $('#divNICFrontView').empty();
+    $('#divNICBackView').empty();
+    $('#divLicenceImg').empty();
 
+    $.ajax({
+        url: baseUrl + "api/v1/customer/" + id,
+        method: "GET",
+        success: function (res) {
+            let customer = res.data;
+
+            let nicFrontPath = customer.nicFrontImg;
+            let nicFrontImg = nicFrontPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages//Customers//")[1];
+            let nicFrontImgSrc = "assets/savedImages//Customers//" + nicFrontImg;
+            console.log(nicFrontImgSrc);
+
+
+
+            let nicfImg = `<img src=${nicFrontImgSrc} alt="NIC Front" style="background-size: cover;width: 100%;height: 100%">`;
+            $('#divNICFrontView').append(nicfImg);
+
+
+        }
+    })
 }
