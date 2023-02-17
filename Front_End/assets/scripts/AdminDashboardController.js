@@ -19,12 +19,18 @@ $(function () {
     // Load All Car Function
     loadAllCars();
 
+    //CCustomer
+    loadPendingCustomers();  //load all pending customers
+    loadRegisteredCustomers(); //load all registered customers
+
 
 });
 
 let today = new Date().toISOString().slice(0, 10);
 let baseUrl = "http://localhost:8080/Back_End_war/";
 
+
+// -------Regex-----------------
 // car Validations
 let regRegNo = /^[A-z ]{1,3}(-)[0-9]{4}$/;
 let regBrand = /^[A-z, |0-9:./]*\b$/;
@@ -50,12 +56,15 @@ let regAddress = /^[A-z ,.0-9]{3,}$/;
 let regContactNo = /^(0)[1-9][0-9][0-9]{7}$/;
 let regNicNo = /^[0-9]{9}(V)|[0-9]{12}$/;
 
+
 //Rental
 let regRentId = /^(RT0-)[0-9]{4}$/;
 let regDetails = /^[A-z0-9 &.,/]{4,}$/;
 
+
 $('#txtToday').val(today);
 $('#txtTodayDate').val(today);
+
 
 // ----------------------------------------------------------------------------------------------
 // Admin Dashboard Section function
@@ -777,7 +786,7 @@ function loadAllCars() {
 }
 
 // bind event
-function bindCarTableClickEvents(){
+function bindCarTableClickEvents() {
     $('#carTable>tr').click(function () {
         let regNo = $(this).children().eq(0).text();
         let brand = $(this).children().eq(1).text();
@@ -974,3 +983,19 @@ function searchCar() {
 
 // ----------------------------------------------------------------------------------------------
 // CUSTOMER Section
+
+// load pending customers into table
+function loadPendingCustomers(){
+    $('#tblPendingCustomers').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/customer/pending",
+        method: "GET",
+        success: function (res) {
+            for (const customer of res.data) {
+                let row = `<tr><td>${customer.customerId}</td><td>${customer.name}</td><td>${customer.address}</td><td>${customer.contactNo}</td><td>${customer.email}</td><td>${customer.nicNo}</td><td>${customer.licenceNo}</td><td>${customer.status}</td></tr>`;
+                $('#tblPendingCustomers').append(row);
+            }
+            bindPendingCustomerTblClickEvents();
+        }
+    })
+}
