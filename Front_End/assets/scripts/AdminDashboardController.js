@@ -19,7 +19,7 @@ $(function () {
     // Load All Car Function
     loadAllCars();
 
-    //CCustomer
+    //Customer
     loadPendingCustomers();  //load all pending customers
     loadRegisteredCustomers(); //load all registered customers
 
@@ -997,5 +997,34 @@ function loadPendingCustomers(){
             }
             bindPendingCustomerTblClickEvents();
         }
-    })
+    });
+}
+
+// bind table data into fields when click
+function bindPendingCustomerTblClickEvents() {
+    $('#tblPendingCustomers>tr').click(function () {
+        let id = $(this).children().eq(0).text();
+        let name = $(this).children().eq(1).text();
+        let address = $(this).children().eq(2).text();
+        let contact = $(this).children().eq(3).text();
+        let email = $(this).children().eq(4).text();
+        let nic = $(this).children().eq(5).text();
+        let licence = $(this).children().eq(6).text();
+
+        $('#txtCustomerId').val(id);
+        $('#txtCustomerName').val(name);
+        $('#txtCustomerAddress').val(address);
+        $('#txtCustomerContactNo').val(contact);
+        $('#txtCustomerEmail').val(email);
+        $('#txtCustomerNICNo').val(nic);
+        $('#txtCustomerLicenceNo').val(licence);
+
+        searchAndLoadCustomerImgs(id);
+
+    });
+}
+
+// customer nic & license img load into customer data fields
+function searchAndLoadCustomerImgs(id) {
+
 }
