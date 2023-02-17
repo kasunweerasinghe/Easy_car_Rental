@@ -1104,7 +1104,7 @@ function acceptCustomer(id) {
 }
 
 
-// bnt clear customer fields
+// clear customer fields function
 function clearCustomerFields() {
     $('#txtCustomerId').val("");
     $('#txtCustomerName').val("");
@@ -1118,6 +1118,50 @@ function clearCustomerFields() {
     $('#divLicenceImg').empty();
 }
 
+
+// bnt clear customer fields
+$('#btnClearFields').click(function () {
+    clearCustomerFields();
+    loadPendingCustomers();
+    loadRegisteredCustomers();
+});
+
+
+// btn reject customer
+$('#btnRejectCustomer').click(function () {
+    if ($('#txtCustomerId').val() != "") {
+        let customerId = $('#txtCustomerId').val();
+        rejectPendingCustomer(customerId);
+    } else {
+        swal({
+            title: "Error",
+            text: "Customer Not Selected",
+            icon: "error",
+            button: "Close",
+            timer: 2000
+        });
+    }
+});
+
+
+// reject customer function
+function rejectPendingCustomer(id) {
+    $.ajax({
+        url: baseUrl + "api/v1/customer?id=" + id,
+        method: "DELETE",
+        success: function (res) {
+            loadPendingCustomers();
+            clearCustomerFields();
+            swal({
+                title: "Confirmation!",
+                text: "Customer rejected",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
 
 function loadRegisteredCustomers() {
 
