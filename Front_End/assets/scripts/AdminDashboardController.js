@@ -1179,3 +1179,53 @@ function loadRegisteredCustomers() {
         }
     })
 }
+
+
+// txt search customer
+$('#searchCustomer').on('keyup', function (event) {
+    checkSearchCustomers();
+    if (event.key === "Enter") {
+        searchCustomer();
+    }
+})
+
+
+// check customer search validation
+function checkSearchCustomers() {
+    var customerId = $('#searchCustomer').val();
+    if (regCustomerId.test(customerId)) {
+        $("#searchCustomer").css('border', '3px solid green');
+        return true;
+    } else {
+        $("#searchCustomer").css('border', '3px solid red');
+        return false;
+    }
+}
+
+
+// customer search function
+function searchCustomer() {
+    $('#tblRegisteredCustomers').empty();
+    let id = $('#searchCustomer').val();
+    $.ajax({
+        url: baseUrl + "api/v1/customer/register/" + id,
+        method: "GET",
+        success: function (res) {
+            console.log(res.data);
+            for (const customer of res.data) {
+                let row = `<tr><td>${customer.customerId}</td><td>${customer.name}</td><td>${customer.address}</td><td>${customer.contactNo}</td><td>${customer.email}</td><td>${customer.nicNo}</td><td>${customer.licenceNo}</td><td>${customer.status}</td></tr>`;
+                $('#tblRegisteredCustomers').append(row);
+            }
+        },
+        error: function (ob) {
+            loadRegisteredCustomers();
+            swal({
+                title: "Error",
+                text: "Customer Not Found",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
