@@ -737,7 +737,13 @@ function clearAddCarFields() {
     $('#imgBackView').val("");
     $('#imgSideView').val("");
     $('#imgInteriorView').val("");
+    $('#cmbtype').val("");
+    $('#cmbTransmissionType').val("");
+    $('#cmbfuel').val("");
+    $('#cmbColor').val("");
     $('#searchCar').val("");
+
+
     $('#txtRegNo').css('border', '1px solid #ced4da');
     $('#txtBrand').css('border', '1px solid #ced4da');
     $('#cmbtype').css('border', '1px solid #ced4da');

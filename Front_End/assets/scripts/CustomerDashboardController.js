@@ -432,20 +432,20 @@ function setCarDataToFields(car) {
 
 
     let frontViewPath = car.frontView;
-    let frontViewImg = frontViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages/Cars/")[1];
-    let FrontViewImgSrc = "assets/savedImages/Cars" + frontViewImg;
+    let frontViewImg = frontViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages//Cars//")[1];
+    let FrontViewImgSrc = "assets/savedImages//Cars//" + frontViewImg;
 
     let backViewPath = car.backView;
-    let backViewImg = backViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages/Cars/")[1];
-    let backViewImgSrc = "assets/savedImages/Cars" + backViewImg;
+    let backViewImg = backViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages//Cars//")[1];
+    let backViewImgSrc = "assets/savedImages//Cars//" + backViewImg;
 
     let sideViewPath = car.sideView;
-    let sideViewImg = sideViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages/Cars/")[1];
-    let sideViewImgSrc = "assets/savedImages/Cars" + sideViewImg;
+    let sideViewImg = sideViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages//Cars//")[1];
+    let sideViewImgSrc = "assets/savedImages///Cars//" + sideViewImg;
 
     let interiorViewPath = car.internalView;
-    let interiorViewImg = interiorViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages/Cars/")[1];
-    let interiorViewImgSrc = "assets/savedImages/Cars" + interiorViewImg;
+    let interiorViewImg = interiorViewPath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages//Cars//")[1];
+    let interiorViewImgSrc = "assets/savedImages///Cars//" + interiorViewImg;
 
     let fvImg = `<img src=${FrontViewImgSrc} alt="NIC Front" style="background-size: cover;width: 100%;height: 100%">`;
     $('#divCarFrontView').append(fvImg);
