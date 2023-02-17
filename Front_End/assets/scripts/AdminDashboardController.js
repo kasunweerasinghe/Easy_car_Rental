@@ -1062,3 +1062,63 @@ function searchAndLoadCustomerImgs(id) {
         }
     })
 }
+
+
+// btn accept customer
+$('#btnAcceptCustomer').click(function () {
+    if ($('#txtCustomerId').val() != "") {
+        let id = $('#txtCustomerId').val();
+        acceptCustomer(id);
+        clearCustomerFields();
+    } else {
+        swal({
+            title: "Error",
+            text: "Customer Not Selected",
+            icon: "error",
+            button: "Close",
+            timer: 2000
+        });
+    }
+});
+
+
+// btn accept customer
+function acceptCustomer(id) {
+    $.ajax({
+        url: baseUrl + "api/v1/customer/updateStatus/" + id,
+        method: "PUT",
+        success: function (res) {
+            console.log(res.message);
+            loadPendingCustomers();
+            getRegisterCustomersCount();
+            loadRegisteredCustomers();
+            swal({
+                title: "Confirmation!",
+                text: "Customer Accepted",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// bnt clear customer fields
+function clearCustomerFields() {
+    $('#txtCustomerId').val("");
+    $('#txtCustomerName').val("");
+    $('#txtCustomerAddress').val("");
+    $('#txtCustomerContactNo').val("");
+    $('#txtCustomerEmail').val("");
+    $('#txtCustomerNICNo').val("");
+    $('#txtCustomerLicenceNo').val("");
+    $('#divNICFrontView').empty();
+    $('#divNICBackView').empty();
+    $('#divLicenceImg').empty();
+}
+
+
+function loadRegisteredCustomers() {
+
+}
