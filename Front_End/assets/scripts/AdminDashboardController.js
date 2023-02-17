@@ -1119,7 +1119,7 @@ function clearCustomerFields() {
 }
 
 
-// bnt clear customer fields
+// btn clear customer fields
 $('#btnClearFields').click(function () {
     clearCustomerFields();
     loadPendingCustomers();
@@ -1163,6 +1163,19 @@ function rejectPendingCustomer(id) {
     })
 }
 
-function loadRegisteredCustomers() {
 
+// function for load registered customers into registered table
+function loadRegisteredCustomers() {
+    $('#tblRegisteredCustomers').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/customer/accepted",
+        method: "GET",
+        success: function (res) {
+            for (const customer of res.data) {
+                console.log(customer.status);
+                let row = `<tr><td>${customer.customerId}</td><td>${customer.name}</td><td>${customer.address}</td><td>${customer.contactNo}</td><td>${customer.email}</td><td>${customer.nicNo}</td><td>${customer.licenceNo}</td><td>${customer.status}</td></tr>`;
+                $('#tblRegisteredCustomers').append(row);
+            }
+        }
+    })
 }
