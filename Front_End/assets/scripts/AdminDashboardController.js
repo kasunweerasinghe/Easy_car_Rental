@@ -24,6 +24,12 @@ $(function () {
     loadRegisteredCustomers(); //load all registered customers
 
 
+    //Driver
+    loadAvailableDrivers();
+    loadNonAvailableDrivers();
+    loadAllDrivers();
+
+
 });
 
 let today = new Date().toISOString().slice(0, 10);
@@ -1234,4 +1240,200 @@ function searchCustomer() {
             });
         }
     })
+}
+
+
+// ----------------------------------------------------------------------------------------------
+// DRIVER Section
+
+// license txt field
+$('#txtLicenceNo').on('keyup', function (event) {
+    checkLicenceNumber();
+    if (regLicenceNo.test($('#txtLicenceNo').val())) {
+        if (event.key === "Enter") {
+            $("#txtDriverName").focus();
+        }
+    }
+});
+
+
+// check license no validation function
+function checkLicenceNumber() {
+    var licenceNo = $('#txtLicenceNo').val();
+    if (regLicenceNo.test(licenceNo)) {
+        $("#txtLicenceNo").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtLicenceNo").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// driver name txt field
+$('#txtDriverName').on('keyup', function (event) {
+    checkDriverName();
+    if (regName.test($('#txtDriverName').val())) {
+        if (event.key === "Enter") {
+            $("#txtDriverAddress").focus();
+        }
+    }
+});
+
+
+// check driver name validation function
+function checkDriverName() {
+    var name = $('#txtDriverName').val();
+    if (regName.test(name)) {
+        $("#txtDriverName").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtDriverName").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// driver address txt field
+$('#txtDriverAddress').on('keyup', function (event) {
+    checkDriverAddress();
+    if (regAddress.test($('#txtDriverAddress').val())) {
+        if (event.key === "Enter") {
+            $("#txtDriverContactNo").focus();
+        }
+    }
+});
+
+
+// check driver address validation function
+function checkDriverAddress() {
+    var address = $('#txtDriverAddress').val();
+    if (regAddress.test(address)) {
+        $("#txtDriverAddress").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtDriverAddress").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// driver contact txt field
+$('#txtDriverContactNo').on('keyup', function (event) {
+    checkDriverContact();
+    if (regAddress.test($('#txtDriverContactNo').val())) {
+        if (event.key === "Enter") {
+            $("#txtDriverNICNo").focus();
+        }
+    }
+});
+
+
+// check driver contact validation function
+function checkDriverContact() {
+    var contact = $('#txtDriverContactNo').val();
+    if (regContactNo.test(contact)) {
+        $("#txtDriverContactNo").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtDriverContactNo").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// driver nic txt field
+$('#txtDriverNICNo').on('keyup', function (event) {
+    checkDriverNIC();
+    if (regNicNo.test($('#txtDriverNICNo').val())) {
+        if (event.key === "Enter") {
+            $("#txtDriverUserName").focus();
+        }
+    }
+});
+
+
+// check driver nic validation function
+function checkDriverNIC() {
+    var nic = $('#txtDriverNICNo').val();
+    if (regNicNo.test(nic)) {
+        $("#txtDriverNICNo").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtDriverNICNo").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// driver username txt field
+$('#txtDriverUserName').on('keyup', function (event) {
+    checkDriverUsername();
+    if (regLoginUsername.test($('#txtDriverUserName').val())) {
+        if (event.key === "Enter") {
+            $("#txtDriverPassword").focus();
+        }
+    }
+});
+
+
+// check driver username validation function
+function checkDriverUsername() {
+    var username = $('#txtDriverUserName').val();
+    if (regLoginUsername.test(username)) {
+        $("#txtDriverUserName").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtDriverUserName").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// driver password txt field
+$('#txtDriverPassword').on('keyup', function (event) {
+    checkDriverPassword();
+});
+
+
+// clear data txt fields
+function clearDriverFields() {
+    $('#txtLicenceNo').val("");
+    $('#txtDriverName').val("");
+    $('#txtDriverAddress').val("");
+    $('#txtDriverContactNo').val("");
+    $('#txtDriverNICNo').val("");
+    $('#txtDriverUserName').val("");
+    $('#txtDriverPassword').val("");
+    $('#searchDriver').val("");
+
+    $('#txtLicenceNo').css('border', '1px solid #ced4da');
+    $('#txtDriverName').css('border', '1px solid #ced4da');
+    $('#txtDriverAddress').css('border', '1px solid #ced4da');
+    $('#txtDriverContactNo').css('border', '1px solid #ced4da');
+    $('#txtDriverNICNo').css('border', '1px solid #ced4da');
+    $('#txtDriverUserName').css('border', '1px solid #ced4da');
+    $('#txtDriverPassword').css('border', '1px solid #ced4da');
+    $('#searchDriver').css('border', '1px solid #ced4da');
+
+    $('#btnUpdateDriver').prop('disabled', true);
+    $('#btnDeleteDriver').prop('disabled', true);
+    $('#btnSaveDriver').prop('disabled', false);
+
+    loadAvailableDrivers();
+    loadNonAvailableDrivers();
+    loadAllDrivers();
+}
+
+
+// check driver password validation function
+function checkDriverPassword() {
+    var password = $('#txtDriverPassword').val();
+    if (regLoginPassword.test(password)) {
+        $("#txtDriverPassword").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#txtDriverPassword").css('border', '2px solid red');
+        return false;
+    }
 }
