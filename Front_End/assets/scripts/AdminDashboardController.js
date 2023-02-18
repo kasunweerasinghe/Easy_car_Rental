@@ -1739,3 +1739,57 @@ function updateDriver() {
         }
     })
 }
+
+
+// driver search field
+$('#searchDriver').on('keyup', function (event) {
+    checkSearchDriver();
+    if (event.key === "Enter") {
+        searchDriverDetails();
+    }
+})
+
+// check driver validation
+function checkSearchDriver() {
+    var search = $('#searchDriver').val();
+    if (regLicenceNo.test(search)) {
+        $("#searchDriver").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#searchDriver").css('border', '2px solid red');
+        return false;
+    }
+}
+
+// search driver function
+function searchDriverDetails() {
+    let licenceNo = $('#searchDriver').val();
+    $.ajax({
+        url: baseUrl + "api/v1/driver/" + licenceNo,
+        method: "GET",
+        success: function (res) {
+            let driver = res.data;
+            $('#tblRegisteredDrivers').empty();
+            let row = `<tr><td>${driver.licenceNo}</td><td>${driver.name}</td><td>${driver.address}</td><td>${driver.contactNo}</td><td>${driver.nicNo}</td><td>${driver.availability}</td></tr>`;
+            $('#tblRegisteredDrivers').append(row);
+        },
+        error: function (ob) {
+            loadAllDrivers();
+            swal({
+                title: "Error!",
+                text: "Driver Not Found",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// btn search
+$('#btnSearchDriver').click(function () {
+    if ($('#searchDriver').val() != "") {
+        searchDriverDetails();
+    }
+})
