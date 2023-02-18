@@ -997,7 +997,7 @@ function searchCar() {
 // CUSTOMER Section
 
 // load pending customers into table
-function loadPendingCustomers(){
+function loadPendingCustomers() {
     $('#tblPendingCustomers').empty();
     $.ajax({
         url: baseUrl + "api/v1/customer/pending",
@@ -1060,7 +1060,6 @@ function searchAndLoadCustomerImgs(id) {
             let licencePath = customer.licenceImg;
             let licenceImg = licencePath.split("/Users/kasunweerasinghe/Desktop/IJSE/AAD/CW/Easy_Car_Rental/Front_End/assets/savedImages//Customers//")[1];
             let licenceImgSrc = "assets/savedImages//Customers//" + licenceImg;
-
 
 
             let nicfImg = `<img src=${nicFrontImgSrc} alt="NIC Front" style="background-size: cover;width: 100%;height: 100%">`;
@@ -1528,7 +1527,6 @@ $('#btnSaveDriver').click(function (res) {
 });
 
 
-
 // load available drivers
 function loadAvailableDrivers() {
     $('#tblAvailableDrivers').empty();
@@ -1610,3 +1608,46 @@ function findDriver(licenceNo) {
 $('#btnClearDriver').click(function () {
     clearDriverFields();
 })
+
+
+// btn delete driver
+$('#btnDeleteDriver').click(function () {
+    if ($('#txtLicenceNo').val() != "") {
+        let res = "Do you want to delete this driver?";
+        if (res) {
+            deleteDriver();
+            clearDriverFields();
+        }
+    }
+})
+
+
+// delete driver function
+function deleteDriver() {
+    let licenceNo = $('#txtLicenceNo').val();
+    $.ajax({
+        url: baseUrl + "api/v1/driver?licenceNo=" + licenceNo,
+        method: "DELETE",
+        success: function (res) {
+            loadAvailableDrivers();
+            loadNonAvailableDrivers();
+            loadAllDrivers();
+            swal({
+                title: "Confirmation!",
+                text: "Driver Deleted Successfully",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        },
+        error: function (ob) {
+            swal({
+                title: "Error!",
+                text: "Driver Not Deleted Successfully",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
