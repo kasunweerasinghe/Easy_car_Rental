@@ -1793,3 +1793,8 @@ $('#btnSearchDriver').click(function () {
         searchDriverDetails();
     }
 })
+
+
+
+// ----------------------------------------------------------------------------------------------
+// RENTAL Section
