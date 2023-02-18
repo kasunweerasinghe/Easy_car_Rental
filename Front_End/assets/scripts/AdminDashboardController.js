@@ -1526,3 +1526,35 @@ $('#btnSaveDriver').click(function (res) {
         alert("Please enter licence No");
     }
 });
+
+
+
+// load available drivers
+function loadAvailableDrivers() {
+    $('#tblAvailableDrivers').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/driver/getAllAvailableDrivers",
+        method: "GET",
+        success: function (res) {
+            for (const driver of res.data) {
+                let row = `<tr><td>${driver.licenceNo}</td><td>${driver.name}</td><td>${driver.address}</td><td>${driver.contactNo}</td><td>${driver.nicNo}</td><td>${driver.availability}</td></tr>`;
+                $('#tblAvailableDrivers').append(row);
+            }
+        }
+    })
+}
+
+// load non available drivers
+function loadNonAvailableDrivers() {
+    $('#tblNonAvailableDrivers').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/driver/getAllNonAvailableDrivers",
+        method: "GET",
+        success: function (res) {
+            for (const driver of res.data) {
+                let row = `<tr><td>${driver.licenceNo}</td><td>${driver.name}</td><td>${driver.address}</td><td>${driver.contactNo}</td><td>${driver.nicNo}</td><td>${driver.availability}</td></tr>`;
+                $('#tblNonAvailableDrivers').append(row);
+            }
+        }
+    })
+}
