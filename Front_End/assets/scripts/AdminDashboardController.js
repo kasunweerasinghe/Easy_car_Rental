@@ -1437,3 +1437,92 @@ function checkDriverPassword() {
         return false;
     }
 }
+
+
+// save driver function
+function saveDriver() {
+    var licenceNo = $('#txtLicenceNo').val();
+    var name = $('#txtDriverName').val();
+    var address = $('#txtDriverAddress').val();
+    var contact = $('#txtDriverContactNo').val();
+    var nic = $('#txtDriverNICNo').val();
+    var username = $('#txtDriverUserName').val();
+    var password = $('#txtDriverPassword').val();
+    var availability = true;
+
+    var driver = {
+        licenceNo: licenceNo,
+        name: name,
+        address: address,
+        contactNo: contact,
+        nicNo: nic,
+        username: username,
+        password: password,
+        availability: availability
+    }
+
+    $.ajax({
+        url: baseUrl + "api/v1/driver",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(driver),
+        success: function (res) {
+            getAvailableDriverCount();
+            loadAvailableDrivers();
+            loadAllDrivers();
+            swal({
+                title: "Confirmation!",
+                text: "Driver Saved Successfully",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        },
+        error: function (ob) {
+            swal({
+                title: "Error!",
+                text: "Driver Not Saved Successfully",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    });
+}
+
+// btn save driver
+$('#btnSaveDriver').click(function (res) {
+    if ($('#txtLicenceNo').val() != "") {
+        if ($('#txtDriverName').val() != "") {
+            if ($('#txtDriverAddress').val() != "") {
+                if ($('#txtDriverContactNo').val() != "") {
+                    if ($('#txtDriverNICNo').val() != "") {
+                        if ($('#txtDriverUserName').val() != "") {
+                            if ($('#txtDriverPassword').val() != "") {
+                                let res = confirm("Do you want to save this driver?");
+                                if (res) {
+                                    saveDriver();
+                                    clearDriverFields();
+                                }
+                            } else {
+                                alert("Please enter password");
+                            }
+                        } else {
+                            alert("Please enter username");
+                        }
+                    } else {
+                        alert("Please enter your NIC No");
+                    }
+                } else {
+                    alert("Please enter your contact no");
+                }
+            } else {
+                alert("Please enter your address");
+            }
+        } else {
+            alert("Please enter your name");
+        }
+    } else {
+        alert("Please enter licence No");
+    }
+});
