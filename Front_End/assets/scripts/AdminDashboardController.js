@@ -2140,3 +2140,59 @@ $('#btnClearRental').click(function () {
 })
 
 
+// search rental text field
+$('#searchRentalRequest').on('keyup', function (event) {
+    checkSearchRentId();
+    if (event.key === "Enter") {
+        searchRentalRequest();
+    }
+})
+
+
+// check validation
+function checkSearchRentId() {
+    var search = $('#searchRentalRequest').val();
+    if (regRentId.test(search)) {
+        $("#searchRentalRequest").css('border', '2px solid green');
+        return true;
+    } else {
+        $("#searchRentalRequest").css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// function car rent search
+function searchRentalRequest() {
+    let rentId = $('#searchRentalRequest').val();
+
+    $('#tblCarRentalRequests').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/" + rentId,
+        method: "GET",
+        success: function (res) {
+            let carRent = res.data;
+            let row = `<tr><td>${carRent.rentId}</td><td>${carRent.date}</td><td>${carRent.pickUpDate}</td><td>${carRent.returnDate}</td><td>${carRent.car.registrationNO}</td><td>${carRent.customer.customerId}</td><td>${carRent.driver.licenceNo}</td><td>${carRent.status}</td></tr>`;
+            $('#tblCarRentalRequests').append(row);
+            bindCarRentalRequestTableClickEvents();
+        },
+        error: function (ob) {
+            loadPendingRentals();
+            swal({
+                title: "Error!",
+                text: "Car Rental Not Found",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+// btn car rent search
+$('#btnSearchRentalRequest').click(function () {
+    if ($('#searchRentalRequest').val() != "") {
+        searchRentalRequest();
+    }
+})
+
