@@ -70,6 +70,7 @@ public class CarRentServiceImpl implements CarRentService {
         }.getType());
     }
 
+    //REPO
     @Override
     public String generateRentId() {
         String lastId = repo.generateRentId();

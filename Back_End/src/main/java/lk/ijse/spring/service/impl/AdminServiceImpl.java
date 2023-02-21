@@ -56,6 +56,14 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public List<AdminDTO> getAllAdmins() {
+        return mapper.map(repo.findAll(), new TypeToken<List<AdminDTO>>() {
+        }.getType());
+    }
+
+
+    //REPO
+    @Override
     public boolean findAdminByUserName(String username) {
         return repo.findAdminByUsername(username).isPresent();
     }
@@ -65,11 +73,6 @@ public class AdminServiceImpl implements AdminService {
         return repo.findAdminByPassword(password).isPresent();
     }
 
-    @Override
-    public List<AdminDTO> getAllAdmins() {
-        return mapper.map(repo.findAll(), new TypeToken<List<AdminDTO>>() {
-        }.getType());
-    }
 
     @Override
     public String generateAdminId() {

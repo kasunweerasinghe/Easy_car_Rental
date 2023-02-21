@@ -70,6 +70,8 @@ public class CustomerServiceImpl implements CustomerService {
         }.getType());
     }
 
+
+    //REPO
     @Override
     public boolean findCustomerByUsername(String username) {
         return repo.findCustomerByUsername(username).isPresent();
