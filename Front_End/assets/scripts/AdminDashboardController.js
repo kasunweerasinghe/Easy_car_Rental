@@ -2196,3 +2196,124 @@ $('#btnSearchRentalRequest').click(function () {
     }
 })
 
+
+
+
+// ----------------------------------------------------------------------------------------------
+//  MAINTENANCE Section
+// registration no search text field
+$('#txtSearchRegistrationNo').on('keyup', function (event) {
+    checkSearchRegNo();
+    if (event.key === "Enter") {
+        if (regRegNo.test($('#txtSearchRegistrationNo').val())) {
+            searchCarByRegistrationNo($('#txtSearchRegistrationNo').val());
+        }
+    }
+})
+
+
+// check validation
+function checkSearchRegNo() {
+    let regNo = $('#txtSearchRegistrationNo').val();
+    if (regRegNo.test(regNo)) {
+        $('#txtSearchRegistrationNo').css('border', '2px solid green');
+        return true;
+    } else {
+        $('#txtSearchRegistrationNo').css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// function for search maintenance reg no
+function searchCarByRegistrationNo(registrationNo) {
+    $.ajax({
+        url: baseUrl + "api/v1/car/" + registrationNo,
+        method: "GET",
+        success: function (res) {
+            let car = res.data;
+            $('#txtSearchBrand').val(car.brand);
+            $('#txtSearchType').val(car.type);
+            $('#txtSearchTransmission').val(car.transmissionType);
+            $('#txtSearchColor').val(car.color);
+            $('#txtSearchStatus').val(car.status);
+        }
+    })
+}
+
+// btn add maintenance
+$('#btnAddToMaintenance').click(function () {
+    if ($('#txtSearchRegistrationNo').val() != "") {
+        if ($('#txtSearchStatus').val() != "Non-Available") {
+            let registrationNo = $('#txtSearchRegistrationNo').val();
+            addToMaintenance(registrationNo);
+        } else {
+            alert("Car is not available in this time.")
+        }
+    } else {
+        alert("Please select a car");
+    }
+})
+
+
+// function for add maintenance
+function addToMaintenance(registrationNo) {
+    let status = "Under Maintenance";
+    $.ajax({
+        url: baseUrl + "api/v1/car/updateCarStatus/" + registrationNo + "/" + status,
+        method: "PUT",
+        success: function (res) {
+            loadAllCars();
+            clearCarMaintenanceFields();
+            getAvailableCarCount();
+            getReservedCarsCount();
+            loadAllUnderMaintenanceCars();
+            swal({
+                title: "Confirmation!",
+                text: "Car add to maintenance",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+// function for clear maintenance fields
+function clearCarMaintenanceFields() {
+    $('#txtSearchRegistrationNo').val("");
+    $('#txtSearchBrand').val("");
+    $('#txtSearchType').val("");
+    $('#txtSearchTransmission').val("");
+    $('#txtSearchColor').val("");
+    $('#txtSearchStatus').val("");
+    $('#txtSearchRegistrationNo').css('border', '1px solid #ced4da');
+}
+
+// generate maintenance id
+function generateMaintenanceId() {
+    $.ajax({
+        url: baseUrl + "api/v1/maintenance/generateMaintenanceId",
+        method: "GET",
+        success: function (res) {
+            $('#txtMaintenanceId').val(res.data);
+        }
+    })
+}
+
+// load table data under maintenance
+function loadAllUnderMaintenanceCars() {
+    let status = "Under Maintenance";
+
+    $('#tblCarUnderMaintenance').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/car/getByStatus/" + status,
+        method: "GET",
+        success: function (res) {
+            for (let car of res.data) {
+                let row = `<tr><td>${car.registrationNO}</td><td>${car.brand}</td><td>${car.type}</td><td>${car.noOfPassengers}</td><td>${car.transmissionType}</td><td>${car.fuelType}</td><td>${car.color}</td><td>${car.dailyRate}</td><td>${car.monthlyRate}</td><td>${car.freeKmForPrice}</td><td>${car.freeKmForDuration}</td><td>${car.lossDamageWaiver}</td><td>${car.priceForExtraKm}</td><td>${car.completeKm}</td><td>${car.status}</td></tr>`;
+                $('#tblCarUnderMaintenance').append(row);
+            }
+        }
+    })
+}
