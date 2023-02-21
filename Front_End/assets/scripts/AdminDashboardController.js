@@ -1988,8 +1988,106 @@ function bindCarRentalRequestTableClickEvents() {
 }
 
 
+// btn rental accept
+$('#btnRentalAccept').click(function () {
+    if ($('#txtRentId').val() != "") {
+        acceptRental();
+    } else {
+        alert("Please select car rental");
+    }
+})
 
 
+// rental accept function
+function acceptRental() {
+    let rentId = $('#txtRentId').val();
+    let status = "Accepted";
+
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/" + rentId + "/" + status,
+        method: "PUT",
+        success: function (res) {
+            loadAllRentals();
+            loadPendingRentals();
+            loadTodayBookings();
+            updateDriverStatus();
+            updateCarStatus();
+            clearRentalRequestFields();
+            loadAllAcceptedRentals();
+            swal({
+                title: "Confirmation!",
+                text: "Car Rental Accepted Successfully",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        },
+        error: function (ob) {
+            swal({
+                title: "Error!",
+                text: "Car Rental Not Accepted",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// update car status
+function updateCarStatus() {
+    let registrationNO = $('#txtCarRegistrationNo').val();
+    let status = "Non-Available";
+
+    $.ajax({
+        url: baseUrl + "api/v1/car/updateCarStatus/" + registrationNO + "/" + status,
+        method: "PUT",
+        success: function (res) {
+            loadAllCars();
+            getAvailableCarCount();
+            getReservedCarsCount();
+        }
+
+    })
+}
+
+
+// update driver status
+function updateDriverStatus() {
+    let licenceNo = $('#txtDLicenceNo').val();
+
+    if (licenceNo != "No Driver") {
+        $.ajax({
+            url: baseUrl + "api/v1/driver/updateNonAvailable/" + licenceNo,
+            method: "PUT",
+            success: function (res) {
+                loadAvailableDrivers();
+                loadNonAvailableDrivers();
+                loadAllDrivers();
+                getAvailableDriverCount();
+                getOccupiedDriverCount();
+            }
+        })
+    }
+}
+
+// clear rental request fields
+function clearRentalRequestFields() {
+    $('#txtRentId').val("");
+    $('#txtDate').val("");
+    $('#txtPickupDate').val("");
+    $('#txtReturnDate').val("");
+    $('#txtCarRegistrationNo').val("");
+    $('#txtCusId').val("");
+    $('#txtDLicenceNo').val("");
+    $('#txtRentalStatus').val("");
+    $('#searchRentalRequest').val("");
+
+    $('#searchRentalRequest').css('border', '1px solid #ced4da');
+
+    loadPendingRentals();
+}
 
 
 
