@@ -2290,6 +2290,7 @@ function clearCarMaintenanceFields() {
     $('#txtSearchRegistrationNo').css('border', '1px solid #ced4da');
 }
 
+
 // generate maintenance id
 function generateMaintenanceId() {
     $.ajax({
@@ -2300,6 +2301,7 @@ function generateMaintenanceId() {
         }
     })
 }
+
 
 // load table data under maintenance
 function loadAllUnderMaintenanceCars() {
@@ -2313,6 +2315,23 @@ function loadAllUnderMaintenanceCars() {
             for (let car of res.data) {
                 let row = `<tr><td>${car.registrationNO}</td><td>${car.brand}</td><td>${car.type}</td><td>${car.noOfPassengers}</td><td>${car.transmissionType}</td><td>${car.fuelType}</td><td>${car.color}</td><td>${car.dailyRate}</td><td>${car.monthlyRate}</td><td>${car.freeKmForPrice}</td><td>${car.freeKmForDuration}</td><td>${car.lossDamageWaiver}</td><td>${car.priceForExtraKm}</td><td>${car.completeKm}</td><td>${car.status}</td></tr>`;
                 $('#tblCarUnderMaintenance').append(row);
+            }
+        }
+    })
+}
+
+
+// load all maintenance table
+function loadAllMaintenances() {
+    $('#tblAllMaintenances').empty();
+
+    $.ajax({
+        url: baseUrl + "api/v1/maintenance",
+        method: "GET",
+        success: function (res) {
+            for (let maintenance of res.data) {
+                let row = `<tr><td>${maintenance.maintenanceId}</td><td>${maintenance.car.registrationNO}</td><td>${maintenance.date}</td><td>${maintenance.details}</td><td>${maintenance.cost}</td></tr>`;
+                $('#tblAllMaintenances').append(row);
             }
         }
     })
