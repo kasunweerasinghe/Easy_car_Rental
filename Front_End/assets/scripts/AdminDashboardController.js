@@ -32,9 +32,21 @@ $(function () {
     //Rental
     loadAllRentals();
 
+    //Payment
+    loadAllPayments();
+
+    //request
+    loadPendingRentals();
+
+    //maintenance
+    generateMaintenanceId();
+    loadAllUnderMaintenanceCars();
+    loadAllMaintenances();
+    generatePaymentID();
 
 
 
+    //Rental
     loadAllAcceptedRentals();
 
 
@@ -1803,7 +1815,6 @@ $('#btnSearchDriver').click(function () {
 })
 
 
-
 // ----------------------------------------------------------------------------------------------
 // RENTAL Section
 // load all rentals
@@ -1849,7 +1860,6 @@ function loadAllAcceptedRentals() {
         }
     })
 }
-
 
 
 // ----------------------------------------------------------------------------------------------
@@ -1934,7 +1944,6 @@ function clearPaymentDateFields() {
     $('#pickToDate').val("");
     loadAllPayments();
 }
-
 
 
 // ----------------------------------------------------------------------------------------------
@@ -2197,8 +2206,6 @@ $('#btnSearchRentalRequest').click(function () {
 })
 
 
-
-
 // ----------------------------------------------------------------------------------------------
 //  MAINTENANCE Section
 // registration no search text field
@@ -2404,6 +2411,123 @@ function checkCarMaintenanceDetails() {
         $('#txtMaintenanceDetails').css('border', '2px solid red');
         return false;
     }
+}
+
+
+// btn paid btn
+$('#btnMaintenancePaid').click(function () {
+    if ($('#txtCarRegNo').val() != "" && $('#txtCost').val() != "" && $('#txtMaintenanceDetails').val() != "") {
+        searchMaintenanceCar();
+    } else {
+        alert("Please fill all fields...")
+    }
+})
+
+
+// search maintenance
+function searchMaintenanceCar() {
+    let registrationNo = $('#txtCarRegNo').val();
+
+    $.ajax({
+        url: baseUrl + "api/v1/car/" + registrationNo,
+        method: "GET",
+        success: function (res) {
+            let car = res.data;
+            console.log(car);
+            addPaymentToMaintenance(car);
+
+        }
+    })
+}
+
+
+// maintenance details
+function addPaymentToMaintenance(car) {
+    let maintenanceId = $('#txtMaintenanceId').val();
+    let today = $('#txtToday').val();
+    let cost = $('#txtCost').val();
+    let maintenanceDetails = $('#txtMaintenanceDetails').val();
+
+    var maintenance = {
+        maintenanceId: maintenanceId,
+        date: today,
+        details: maintenanceDetails,
+        car: car,
+        cost: cost
+    }
+
+    $.ajax({
+        url: baseUrl + "api/v1/maintenance",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(maintenance),
+        success: function (res) {
+            updateCarStatusToAvailable(car.registrationNO);
+        }
+    })
+}
+
+// update car status to available
+function updateCarStatusToAvailable(registrationNo) {
+    let status = "Available";
+
+    $.ajax({
+        url: baseUrl + "api/v1/car/updateCarStatus/" + registrationNo + "/" + status,
+        method: "PUT",
+        success: function (res) {
+            getAvailableCarCount();
+            loadAllCars();
+            loadAllUnderMaintenanceCars();
+            loadAllMaintenances();
+            generateMaintenanceId();
+            clearPaidFields();
+
+            swal({
+                title: "Confirmation!",
+                text: "Maintenance Cost Paid",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// clear fields function
+function clearPaidFields() {
+    $('#txtCarRegNo').val("");
+    $('#txtCost').val("");
+    $('#txtMaintenanceDetails').val("");
+    $('#txtCarRegNo').css('border', '1px solid #ced4da');
+    $('#txtCost').css('border', '1px solid #ced4da');
+    $('#txtMaintenanceDetails').css('border', '1px solid #ced4da');
+}
+
+// clear btn
+$('#btnClearMaintenance').click(function () {
+    clearCarMaintenanceFields();
+    loadAllUnderMaintenanceCars();
+    loadAllMaintenances();
+})
+
+
+// btn clear near paid btn
+$('#btnClearPaid').click(function () {
+    clearPaidFields();
+    loadAllMaintenances();
+    loadAllUnderMaintenanceCars();
+})
+
+// generate payment id
+function generatePaymentID() {
+    $.ajax({
+        url: baseUrl + "api/v1/payment/generatePaymentId",
+        method: "GET",
+        success: function (res) {
+            $('#txtReturnPaymentId').val(res.data);
+        }
+    })
 }
 
 
