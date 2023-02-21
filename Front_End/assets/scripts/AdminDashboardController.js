@@ -1854,7 +1854,86 @@ function loadAllAcceptedRentals() {
 
 // ----------------------------------------------------------------------------------------------
 // PAYMENT Section
+// load all payments
+function loadAllPayments() {
+    $('#tblPayments').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/payment",
+        method: "GET",
+        success: function (res) {
+            for (const payment of res.data) {
+                let row = `<tr><td>${payment.paymentId}</td><td>${payment.date}</td><td>${payment.amount}</td><td>${payment.rental.rentId}</td><td>${payment.customer.customerId}</td></tr>`;
+                $('#tblPayments').append(row);
+            }
+        }
+    })
+}
 
+// search btn
+$('#btnSearchPayment').click(function () {
+    if ($('#pickFromDate').val() != "") {
+        if ($('#pickToDate').val() != "") {
+            searchPaymentByDate();
+        } else {
+            alert("Please select to date");
+        }
+    } else {
+        alert("Please select from date");
+    }
+})
+
+
+// search payment function
+function searchPaymentByDate() {
+    let fromDate = $('#pickFromDate').val();
+    let toDate = $('#pickToDate').val();
+
+    $('#tblPayments').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/payment/" + fromDate + "/" + toDate,
+        method: "GET",
+        success: function (res) {
+            for (const payment of res.data) {
+                let row = `<tr><td>${payment.paymentId}</td><td>${payment.date}</td><td>${payment.amount}</td><td>${payment.rental.rentId}</td><td>${payment.customer.customerId}</td></tr>`;
+                $('#tblPayments').append(row);
+            }
+
+            if (res.data.length === 0) {
+                clearPaymentDateFields();
+                swal({
+                    title: "Error!",
+                    text: "Payments Not Found",
+                    icon: "error",
+                    button: "Close",
+                    timer: 2000
+                });
+            }
+        },
+        error: function (ob) {
+            clearPaymentDateFields();
+            swal({
+                title: "Error!",
+                text: "Payments Not Found",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// btn clear
+$('#btnClearDates').click(function () {
+    clearPaymentDateFields();
+})
+
+// clear function
+function clearPaymentDateFields() {
+    $('#pickFromDate').val("");
+    $('#pickToDate').val("");
+    loadAllPayments();
+}
 
 
 
