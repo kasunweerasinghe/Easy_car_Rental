@@ -2336,3 +2336,76 @@ function loadAllMaintenances() {
         }
     })
 }
+
+
+// txt car reg no field
+$('#txtCarRegNo').on('keyup', function (event) {
+    checkCarRegNo();
+    if (event.key === "Enter") {
+        if (regRegNo.test($('#txtCarRegNo').val())) {
+            $('#txtCost').focus();
+        } else {
+            $('#txtCarRegNo').focus();
+        }
+    }
+})
+
+// txt car reg no field validation
+function checkCarRegNo() {
+    let regNo = $('#txtCarRegNo').val();
+    if (regRegNo.test(regNo)) {
+        $('#txtCarRegNo').css('border', '2px solid green');
+        return true;
+    } else {
+        $('#txtCarRegNo').css('border', '2px solid red');
+        return false;
+    }
+}
+
+// txt cost fees txt field
+$('#txtCost').on('keyup', function (event) {
+    checkCarMaintenanceCost();
+    if (event.key === "Enter") {
+        if (regDailyRate.test($('#txtCost').val())) {
+            $('#txtMaintenanceDetails').focus();
+        } else {
+            $('#txtCost').focus();
+        }
+    }
+})
+
+
+// txt cost fees txt field validation function
+function checkCarMaintenanceCost() {
+    let cost = $('#txtCost').val();
+    if (regDailyRate.test(cost)) {
+        $('#txtCost').css('border', '2px solid green');
+        return true;
+    } else {
+        $('#txtCost').css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// txt maintenance details txt field
+$('#txtMaintenanceDetails').on('keyup', function (event) {
+    checkCarMaintenanceDetails();
+})
+
+
+// txt maintenance details txt field validation function
+function checkCarMaintenanceDetails() {
+    let details = $('#txtMaintenanceDetails').val();
+    if (regDetails.test(details)) {
+        $('#txtMaintenanceDetails').css('border', '2px solid green');
+        return true;
+    } else {
+        $('#txtMaintenanceDetails').css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+
+
