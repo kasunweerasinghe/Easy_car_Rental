@@ -1939,7 +1939,53 @@ function clearPaymentDateFields() {
 
 // ----------------------------------------------------------------------------------------------
 // REQUEST Section
+// load all pending rental
+function loadPendingRentals() {
+    let status = "Pending";
 
+    $('#tblCarRentalRequests').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/get/" + status,
+        method: "GET",
+        success: function (res) {
+            for (const carRent of res.data) {
+                let licence;
+                if (carRent.driver === null) {
+                    licence = "No Driver";
+                } else {
+                    licence = carRent.driver.licenceNo;
+                }
+                let row = `<tr><td>${carRent.rentId}</td><td>${carRent.date}</td><td>${carRent.pickUpDate}</td><td>${carRent.returnDate}</td><td>${carRent.car.registrationNO}</td><td>${carRent.customer.customerId}</td><td>${licence}</td><td>${carRent.status}</td></tr>`;
+                $('#tblCarRentalRequests').append(row);
+            }
+            bindCarRentalRequestTableClickEvents();
+        }
+    })
+}
+
+
+// table data bind
+function bindCarRentalRequestTableClickEvents() {
+    $('#tblCarRentalRequests>tr').click(function () {
+        let rentId = $(this).children().eq(0).text();
+        let date = $(this).children().eq(1).text();
+        let pickupDate = $(this).children().eq(2).text();
+        let returnDate = $(this).children().eq(3).text();
+        let regNo = $(this).children().eq(4).text();
+        let custId = $(this).children().eq(5).text();
+        let licenceNo = $(this).children().eq(6).text();
+        let status = $(this).children().eq(7).text();
+
+        $('#txtRentId').val(rentId);
+        $('#txtDate').val(date);
+        $('#txtPickupDate').val(pickupDate);
+        $('#txtReturnDate').val(returnDate);
+        $('#txtCarRegistrationNo').val(regNo);
+        $('#txtCusId').val(custId);
+        $('#txtDLicenceNo').val(licenceNo);
+        $('#txtRentalStatus').val(status);
+    })
+}
 
 
 
