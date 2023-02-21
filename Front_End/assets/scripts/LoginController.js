@@ -177,7 +177,7 @@ $('#inputName,#inputAddress,#inputContactNo,#inputNIC,#inputDrivingLicence,#inpu
     }
 });
 
-// SIGN UP
+//------------SIGN UP------------------------------------
 // signup validation
 function checkIfSignUpUserFormValid() {
     var name = $('#inputName').val();
@@ -519,7 +519,7 @@ function clearSignupTextFields() {
 
 
 
-//ADMIN
+//----------------ADMIN---------------------
 // add admin
 function addAdmin() {
     let id = $('#txtId').val();

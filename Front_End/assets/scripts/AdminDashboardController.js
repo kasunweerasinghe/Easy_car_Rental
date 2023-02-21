@@ -29,6 +29,14 @@ $(function () {
     loadNonAvailableDrivers();
     loadAllDrivers();
 
+    //Rental
+    loadAllRentals();
+
+
+
+
+    loadAllAcceptedRentals();
+
 
 });
 
@@ -1798,3 +1806,62 @@ $('#btnSearchDriver').click(function () {
 
 // ----------------------------------------------------------------------------------------------
 // RENTAL Section
+// load all rentals
+function loadAllRentals() {
+    $('#tblCarRentals').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent",
+        method: "GET",
+        success: function (res) {
+            for (const carRent of res.data) {
+                let licence;
+                if (carRent.driver === null) {
+                    licence = "No Driver";
+                } else {
+                    licence = carRent.driver.licenceNo;
+                }
+                let row = `<tr><td>${carRent.rentId}</td><td>${carRent.date}</td><td>${carRent.pickUpDate}</td><td>${carRent.returnDate}</td><td>${carRent.car.registrationNO}</td><td>${carRent.customer.customerId}</td><td>${licence}</td><td>${carRent.status}</td></tr>`;
+                $('#tblCarRentals').append(row);
+            }
+        }
+    })
+}
+
+
+// load all accept rentals
+function loadAllAcceptedRentals() {
+    let status = "Accepted";
+    $('#tableCarRental').empty();
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/get/" + status,
+        method: "GET",
+        success: function (res) {
+            for (const carRent of res.data) {
+                let licence;
+                if (carRent.driver === null) {
+                    licence = "No Driver";
+                } else {
+                    licence = carRent.driver.licenceNo;
+                }
+                let row = `<tr><td>${carRent.rentId}</td><td>${carRent.date}</td><td>${carRent.pickUpDate}</td><td>${carRent.returnDate}</td><td>${carRent.car.registrationNO}</td><td>${carRent.customer.customerId}</td><td>${licence}</td><td>${carRent.status}</td></tr>`;
+                $('#tableCarRental').append(row);
+            }
+        }
+    })
+}
+
+
+
+// ----------------------------------------------------------------------------------------------
+// PAYMENT Section
+
+
+
+
+
+
+
+
+
+
+
