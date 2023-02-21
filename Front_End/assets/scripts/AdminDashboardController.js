@@ -2072,6 +2072,7 @@ function updateDriverStatus() {
     }
 }
 
+
 // clear rental request fields
 function clearRentalRequestFields() {
     $('#txtRentId').val("");
@@ -2090,6 +2091,52 @@ function clearRentalRequestFields() {
 }
 
 
+// btn rental reject
+$('#btnRentalReject').click(function () {
+    if ($('#txtRentId').val() != "") {
+        let rentId = $('#txtRentId').val();
+        rejectRentals(rentId);
+    } else {
+        alert("Please select car rental");
+    }
+})
 
+
+// function reject rental
+function rejectRentals(rentId) {
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent?rentId=" + rentId,
+        method: "DELETE",
+        success: function (res) {
+            loadAllRentals();
+            loadPendingRentals();
+            loadTodayBookings();
+            getTodayBookingsCount();
+            clearRentalRequestFields();
+            swal({
+                title: "Confirmation!",
+                text: "Car Rental Rejected Successfully",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        },
+        error: function (ob) {
+            swal({
+                title: "Error!",
+                text: "Car Rental Not Rejected",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// btn clear rental
+$('#btnClearRental').click(function () {
+    clearRentalRequestFields();
+})
 
 
