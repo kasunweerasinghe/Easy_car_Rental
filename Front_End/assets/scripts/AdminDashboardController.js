@@ -2676,3 +2676,40 @@ function checkTotalKm() {
     }
 }
 
+// function for calculate Total Price For Extra Km
+function calculateTotalPriceForExtraKm() {
+    let rentId = $('#txtSearchRentId').val();
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/" + rentId,
+        method: "GET",
+        success: function (res) {
+            let carRent = res.data;
+            searchCarForCalculatePriceForExtraKm(carRent.car.registrationNO);
+        }
+    })
+}
+
+// function for search calculate Total Price For Extra Km
+function searchCarForCalculatePriceForExtraKm(registrationNo) {
+    $.ajax({
+        url: baseUrl + "api/v1/car/" + registrationNo,
+        method: "GET",
+        success: function (res) {
+            let car = res.data;
+            let completeKm = car.completeKm;
+            let freeKmForPrice = car.freeKmForPrice;
+            let totalKm = $('#txtTotalKm').val();
+            if (completeKm < totalKm) {
+                let extraKm = totalKm - completeKm;
+                if (freeKmForPrice < extraKm) {
+                    let excess = extraKm - freeKmForPrice;
+                    let priceForExtra = car.priceForExtraKm * excess;
+                    $('#txtTotalPriceForExtraKm').val(priceForExtra);
+                }
+            } else {
+                $('#txtTotalPriceForExtraKm').val("0.0");
+            }
+        }
+    })
+}
+
