@@ -2742,4 +2742,61 @@ function calculatePayments() {
 }
 
 
+// btn submit payment
+$('#btnSubmitPayment').click(function () {
+    if ($('#txtSearchRentId').val() != "" && $('#txtTotalPayments').val() != "" && $('#txtBalance').val() != "") {
+        submitPayment();
+    } else {
+        alert("Please select a booking and calculate payment");
+    }
+})
+
+
+// function submit payment
+function submitPayment() {
+    let rentId = $('#txtSearchRentId').val();
+    if (rentId != null) {
+        searchCarRentForPayment(rentId);
+    }
+}
+
+// function search car rent for payment
+function searchCarRentForPayment(rentId) {
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/" + rentId,
+        method: "GET",
+        success: function (res) {
+            let carRent = res.data;
+            console.log(carRent);
+            addPayment(carRent);
+        }
+    })
+}
+
+
+// function add payment
+function addPayment(carRent) {
+    let paymentId = $('#txtReturnPaymentId').val();
+    let date = $('#txtTodayDate').val();
+    let balance = $('#txtBalance').val();
+
+    var payment = {
+        paymentId: paymentId,
+        date: date,
+        amount: balance,
+        rental: carRent,
+        customer: carRent.customer
+    }
+
+    $.ajax({
+        url: baseUrl + "api/v1/payment",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(payment),
+        success: function (res) {
+            console.log("Success");
+            addCarRentReturn(carRent, payment);
+        }
+    })
+}
 
