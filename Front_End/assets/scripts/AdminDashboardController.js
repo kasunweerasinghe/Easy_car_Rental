@@ -2631,6 +2631,48 @@ function searchCarDailyRate(registrationNo, days) {
     })
 }
 
+// txt damage cost
+$('#txtDamageCost').on('keyup', function (event) {
+    checkDamageCost();
+    if (event.key === "Enter") {
+        if (regDailyRate.test($('#txtDamageCost').val())) {
+            $('#txtTotalKm').focus()
+        } else {
+            $('#txtDamageCost').focus();
+        }
+    }
+})
 
+// check damage cost validation
+function checkDamageCost() {
+    let cost = $('#txtDamageCost').val();
+    if (regDailyRate.test(cost)) {
+        $('#txtDamageCost').css('border', '2px solid green');
+    } else {
+        $('#txtDamageCost').css('border', '2px solid red');
+    }
+}
 
+// txt total km
+$('#txtTotalKm').on('keyup', function (event) {
+    checkTotalKm();
+    calculateTotalPriceForExtraKm();
+    if (event.key === "Enter") {
+        if (regCompleteKm.test($('#txtTotalKm').val())) {
+            $('#txtTotalPriceForExtraKm').focus()
+        } else {
+            $('#txtTotalKm').focus();
+        }
+    }
+})
+
+// check total km validation
+function checkTotalKm() {
+    let km = $('#txtTotalKm').val();
+    if (regCompleteKm.test(km)) {
+        $('#txtTotalKm').css('border', '2px solid green');
+    } else {
+        $('#txtTotalKm').css('border', '2px solid red');
+    }
+}
 
