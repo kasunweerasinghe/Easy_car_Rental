@@ -45,9 +45,11 @@ $(function () {
     generatePaymentID();
 
 
-
     //Rental
     loadAllAcceptedRentals();
+
+    //Rental Return
+    generateReturnId();
 
 
 });
@@ -2533,6 +2535,17 @@ function generatePaymentID() {
 
 // ----------------------------------------------------------------------------------------------
 //  RETURN Section
+// generate return id
+function generateReturnId() {
+    $.ajax({
+        url: baseUrl + "api/v1/carRentReturn/generateReturnId",
+        method: "GET",
+        success: function (res) {
+            $('#txtReturnId').val(res.data);
+        }
+    })
+}
+
 
 
 
