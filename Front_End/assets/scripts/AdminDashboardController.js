@@ -2546,7 +2546,90 @@ function generateReturnId() {
     })
 }
 
+// txt rental id search field
+$('#txtSearchRentId').on('keyup', function (event) {
+    checkSearchRentalId();
+    if (event.key === "Enter") {
+        if (regRentId.test($('#txtSearchRentId').val())) {
+            searchCarRent();
+        } else {
+            $('#txtSearchRentId').focus();
+        }
+    }
+})
 
+
+// check entered rental id is valid
+function checkSearchRentalId() {
+    let rentId = $('#txtSearchRentId').val();
+    if (regRentId.test(rentId)) {
+        $('#txtSearchRentId').css('border', '2px solid green');
+        return true;
+    } else {
+        $('#txtSearchRentId').css('border', '2px solid red');
+        return false;
+    }
+}
+
+
+// search rent function
+function searchCarRent() {
+    let rentId = $('#txtSearchRentId').val();
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/" + rentId,
+        method: "GET",
+        success: function (res) {
+            let carRent = res.data;
+
+            $('#txtPickDate').val(carRent.pickUpDate);
+            $('#txtRDate').val(carRent.returnDate);
+
+            calculateTotalPaidPayments(carRent);
+        },
+        error: function (ob) {
+            swal({
+                title: "Error!",
+                text: "Booking Not Found",
+                icon: "error",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+
+// calculate total paid amount function
+function calculateTotalPaidPayments(carRent) {
+    $.ajax({
+        url: baseUrl + "api/v1/payment/calculatePaidPayment/" + carRent.rentId,
+        method: "GET",
+        success: function (res) {
+            $('#txtTotalPaidAmount').val(res.data);
+            var pickupDate = new Date(carRent.pickUpDate);
+            var day = new Date(today);
+            var differenceInTime = day.getTime() - pickupDate.getTime();
+            var differenceIndays = differenceInTime / (1000 * 3600 * 24);
+
+            searchCarDailyRate(carRent.car.registrationNO, differenceIndays);
+        }
+    })
+}
+
+
+// search car daily rates function
+function searchCarDailyRate(registrationNo, days) {
+    $.ajax({
+        url: baseUrl + "api/v1/car/" + registrationNo,
+        method: "GET",
+        success: function (res) {
+            let car = res.data;
+            let dailyRate = car.dailyRate;
+            let cost = dailyRate * days;
+            $('#txtRentForUseDates').val(cost);
+        }
+    })
+}
 
 
 
