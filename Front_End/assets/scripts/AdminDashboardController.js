@@ -2713,3 +2713,33 @@ function searchCarForCalculatePriceForExtraKm(registrationNo) {
     })
 }
 
+
+// calculate payment btn
+$('#btnCalPayment').click(function () {
+    if ($('#txtSearchRentId').val() != "") {
+        calculatePayments();
+    } else {
+        alert("Please select a booking");
+    }
+})
+
+// function for calculate payments
+function calculatePayments() {
+    let rfu = $('#txtRentForUseDates').val();
+    let tpa = $('#txtTotalPaidAmount').val();
+    let dc = $('#txtDamageCost').val();
+    let tpfek = $('#txtTotalPriceForExtraKm').val();
+    let rentForUseDates = parseFloat(rfu);
+    let totalPaidAmount = parseFloat(tpa);
+    let damageCost = parseFloat(dc);
+    let totalPriceForExtraKm = parseFloat(tpfek);
+
+    let totalPayments = rentForUseDates + damageCost + totalPriceForExtraKm;
+    let balance = totalPayments - totalPaidAmount;
+
+    $('#txtTotalPayments').val(totalPayments);
+    $('#txtBalance').val(balance);
+}
+
+
+
