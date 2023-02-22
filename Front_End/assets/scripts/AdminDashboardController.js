@@ -2800,3 +2800,122 @@ function addPayment(carRent) {
     })
 }
 
+
+// function add car rent return
+function addCarRentReturn(carRent, payment) {
+
+    let date = $('#txtTodayDate').val();
+    let returnId = $('#txtReturnId').val();
+    let totalKm = $('#txtTotalKm').val();
+
+    console.log(payment);
+    console.log(carRent);
+    var carRentReturn = {
+        returnId: returnId,
+        date: date,
+        noOfKm: totalKm,
+        rental: carRent,
+        payment: payment
+    }
+
+
+    $.ajax({
+        url: baseUrl + "api/v1/carRentReturn",
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(carRentReturn),
+        success: function (res) {
+            generateReturnId();
+            generatePaymentID();
+            updateCarRentFinished(carRent.rentId);
+            updateCStatus(carRent.car.registrationNO);
+            if (carRent.driver != null) {
+                updateDStatus(carRent.driver.licenceNo);
+            }
+            loadAllPayments();
+            clearCarRentReturnFields();
+
+            swal({
+                title: "Confirmation!",
+                text: "Payment Submit",
+                icon: "success",
+                button: "Close",
+                timer: 2000
+            });
+        }
+    })
+}
+
+//function for clear car rent return fields
+function clearCarRentReturnFields() {
+    $('#txtSearchRentId').val("");
+    $('#txtTotalPaidAmount').val("");
+    $('#txtPickDate').val("");
+    $('#txtRDate').val("");
+    $('#txtRentalCustId').val("");
+    $('#txtRentForUseDates').val("");
+    $('#txtDamageCost').val("");
+    $('#txtTotalKm').val("");
+    $('#txtTotalPriceForExtraKm').val("");
+    $('#txtTotalPayments').val("");
+    $('#txtBalance').val("");
+
+    $('#txtSearchRentId').css('border', '1px solid #ced4da');
+    $('#txtDamageCost').css('border', '1px solid #ced4da');
+    $('#txtTotalKm').css('border', '1px solid #ced4da');
+}
+
+
+// function for update Car Rent Finished
+function updateCarRentFinished(rentId) {
+    let status = "Finished";
+
+    $.ajax({
+        url: baseUrl + "api/v1/CarRent/" + rentId + "/" + status,
+        method: "PUT",
+        success: function (res) {
+            console.log("updated");
+            loadAllRentals();
+            loadTodayBookings();
+            loadAllAcceptedRentals();
+        }
+    })
+}
+
+// update car status
+function updateCStatus(registrationNO) {
+    let status = "Available";
+
+    $.ajax({
+        url: baseUrl + "api/v1/car/updateCarStatus/" + registrationNO + "/" + status,
+        method: "PUT",
+        success: function (res) {
+            getAvailableCarCount();
+            getReservedCarsCount();
+            loadAllCars();
+        }
+    })
+}
+
+// update driver status
+function updateDStatus(licenceNo) {
+
+    $.ajax({
+        url: baseUrl + "api/v1/driver/updateAvailable/" + licenceNo,
+        method: "PUT",
+        success: function (res) {
+            getAvailableDriverCount();
+            getOccupiedDriverCount();
+            loadAllDrivers();
+            loadAvailableDrivers();
+            loadNonAvailableDrivers();
+        }
+    })
+}
+
+// btn clear payment
+$('#btnClearPayment').click(function () {
+    clearCarRentReturnFields();
+})
+
+
