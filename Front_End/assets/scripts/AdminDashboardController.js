@@ -2919,7 +2919,25 @@ $('#btnClearPayment').click(function () {
 });
 
 // ----------------------------------------------------------------------------------------------
-// income report
+// INCOME REPORT section
 
+// btn search income
+$('#btnSearchIncome').click(function () {
+    if ($('#incomeFromDate').val() != "") {
+        if ($('#incomeToDate').val() != "") {
+            let fromDate = $('#incomeFromDate').val();
+            let toDate = $('#incomeToDate').val();
+            searchPaymentsAndIncome(fromDate, toDate);
+        } else {
+            alert("Please select to date");
+        }
+    } else {
+        alert("Please select from date");
+    }
+});
+
+function searchPaymentsAndIncome(fromDate, toDate) {
+
+}
 
 
