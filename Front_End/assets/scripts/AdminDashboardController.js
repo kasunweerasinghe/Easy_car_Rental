@@ -2978,3 +2978,27 @@ function searchMaintenances(fromDate, toDate) {
         }
     })
 }
+
+// calculate total income
+function calculateIncome() {
+    let payments = $('#lblTotalPayments').text();
+    let maintenances = $('#lblTotalMaintenanceCost').text();
+
+    var doubPayments = parseFloat(payments);
+    var doubMaintenances = parseFloat(maintenances);
+
+    var income = doubPayments - doubMaintenances;
+
+    $('#lblTotalIncome').text(income);
+}
+
+// btn clear income
+$('#btnClearIncome').click(function () {
+    $('#incomeFromDate').val("");
+    $('#incomeToDate').val("");
+    $('#tblPaymentsInDateRange').empty();
+    $('#tblMaintenancesInDateRange').empty();
+    $('#lblTotalPayments').text("0");
+    $('#lblTotalMaintenanceCost').text("0");
+    $('#lblTotalIncome').text("0");
+})
