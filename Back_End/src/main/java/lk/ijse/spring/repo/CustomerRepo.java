@@ -34,7 +34,8 @@ public interface CustomerRepo extends JpaRepository<Customer, String> {
     @Modifying
     @Transactional
     @Query(value = "UPDATE Customer SET nicFrontImg=:nicFrontImg,nicBackImg=:nicBackImg,licenceImg=:licenceImg WHERE customerId=:customerId", nativeQuery = true)
-    void updateCustomerFilePaths(@Param("nicFrontImg") String nicFrontImg, @Param("nicBackImg") String nicBackImg, @Param("licenceImg") String licenceImg, @Param("customerId") String customerId);
+    void updateCustomerFilePaths(@Param("nicFrontImg") String nicFrontImg, @Param("nicBackImg") String nicBackImg, @Param("licenceImg")
+    String licenceImg, @Param("customerId") String customerId);
 
     @Query(value = "SELECT COUNT(customerId) FROM Customer WHERE status='Accepted'", nativeQuery = true)
     int countByCustomerId();

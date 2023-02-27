@@ -2916,6 +2916,10 @@ function updateDStatus(licenceNo) {
 // btn clear payment
 $('#btnClearPayment').click(function () {
     clearCarRentReturnFields();
-})
+});
+
+// ----------------------------------------------------------------------------------------------
+// income report
+
 
 
