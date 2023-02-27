@@ -1063,7 +1063,6 @@ function searchAndLoadCustomerImgs(id) {
     $('#divNICFrontView').empty();
     $('#divNICBackView').empty();
     $('#divLicenceImg').empty();
-
     $.ajax({
         url: baseUrl + "api/v1/customer/" + id,
         method: "GET",
@@ -2937,7 +2936,45 @@ $('#btnSearchIncome').click(function () {
 });
 
 function searchPaymentsAndIncome(fromDate, toDate) {
-
+    searchPayments(fromDate,toDate);
+    searchMaintenances(fromDate,toDate);
 }
 
 
+// search payment
+function searchPayments(fromDate, toDate) {
+    $('#tblPaymentsInDateRange').empty();
+    $.ajax({
+        url:baseUrl + "api/v1/payment/" + fromDate + "/" + toDate,
+        method:"GET",
+        success:function (res) {
+            let amount = 0.0;
+            for (let payment of res.data) {
+                amount = amount + payment.amount;
+                let row = `<tr><td>${payment.paymentId}</td><td>${payment.date}</td><td>${payment.amount}</td><td>${payment.rental.rentId}</td><td>${payment.customer.customerId}</td></tr>`;
+                $('#tblPaymentsInDateRange').append(row);
+            }
+            $('#lblTotalPayments').text(amount);
+        }
+    })
+}
+
+
+// search maintenances
+function searchMaintenances(fromDate, toDate) {
+    $('#tblMaintenancesInDateRange').empty();
+    $.ajax({
+        url:baseUrl + "api/v1/maintenance/getAll/" + fromDate + "/" + toDate,
+        method:"GET",
+        success:function (res) {
+            let cost = 0.0;
+            for (let maintenance of res.data) {
+                cost = cost + maintenance.cost;
+                let row = `<tr><td>${maintenance.maintenanceId}</td><td>${maintenance.date}</td><td>${maintenance.cost}</td><td>${maintenance.details}</td><td>${maintenance.car.registrationNO}</td></tr>`;
+                $('#tblMaintenancesInDateRange').append(row);
+            }
+            $('#lblTotalMaintenanceCost').text(cost);
+            setTimeout(calculateIncome,50);
+        }
+    })
+}
