@@ -47,14 +47,14 @@ html body {
     height: 80px;
     box-shadow: 0 4px 10px -3px rgba(183, 174, 174, 0.34);
     /*position: relative;*/
-    background: #f1d568;
+    background: #2a47b2;
 }
 
 .navbar {
     height: 80px;
     /*background: rgba(189, 0, 0, 0.8) top;*/
     box-shadow: 0 4px 10px -3px rgba(183, 174, 174, 0.34);
-    background: #f1d568;
+    background: #2a47b2;
     overflow: hidden;
 }
 
@@ -89,14 +89,14 @@ html body {
 }
 
 .navbar li .nav-link {
-    color: black;
+    color: white;
     opacity: 1;
+
 }
 
 .navbar li .nav-link:hover {
-    color: #002aff;
+    color: #ff0000;
     text-decoration: underline;
-    text-decoration-color: #002aff;
 }
 
 .changeColor {
@@ -109,10 +109,6 @@ html body {
     background-position: center;
 }
 
-/*.taxi_png {*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*}*/
 
 .img_div {
     border-right: gray solid 1px;
@@ -127,6 +123,7 @@ html body {
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 50px;
     text-align: right;
+    color: white;
 }
 
 .sticky {
