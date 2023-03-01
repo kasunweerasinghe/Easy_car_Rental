@@ -26,7 +26,6 @@ public class CarRent {
 
     @Id
     private String rentId;
-
     private String date;
     private String pickUpDate;
     private String returnDate;
