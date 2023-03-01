@@ -32,7 +32,7 @@ can check does he have a reservation.
 
 ## Project View.
 
-### ** Page Section **
+### ** Page View **
 
 #### Welcome Page
 ![Page!](Front_End/assets/images/project_ss/Admin/Page.png)
