@@ -50,7 +50,7 @@ can check does he have a reservation.
 ![Login-Interface!](Front_End/assets/images/project_ss/Admin/Login-Interface.png)
 
 
-### ** Admin Section **
+### ** Admin Page **
 
 #### Admin-Dashboard
 ![Admin-Dashboard!](Front_End/assets/images/project_ss/Admin/Admin-Dashboard.png)
@@ -83,7 +83,7 @@ can check does he have a reservation.
 ![Admin-Income-Report!](Front_End/assets/images/project_ss/Admin/Admin-Income-Report.png)
 
 
-### ** Customer Section **
+### ** Customer Page **
 
 
 #### Customer-Profile
@@ -99,7 +99,7 @@ can check does he have a reservation.
 ![Customer-Payment!](Front_End/assets/images/project_ss/cus/Customer-Payment.png)
 
 
-### ** Driver Section **
+### ** Driver Page **
 
 #### Driver-Dashboard
 ![Driver-Dashboard!](Front_End/assets/images/project_ss/driver/Driver-Dashboard.png)
