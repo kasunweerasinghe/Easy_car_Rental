@@ -1,3 +1,3 @@
-# ** Project Details ** 
+# Project Details 
 
 
