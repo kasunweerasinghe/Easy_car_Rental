@@ -81,6 +81,7 @@ function setLoginButtonDisableOrNot() {
     }
 }
 
+
 // check username and pass valid to unlock sign in btn
 function checkIfLoginUserFormValid() {
     var username = $('#txtUserName').val();
@@ -98,6 +99,7 @@ function checkIfLoginUserFormValid() {
         $('#txtUserName').focus();
     }
 }
+
 
 // check which user select
 $('#inputUserType').change(function () {
@@ -159,6 +161,7 @@ function generateAdminId() {
     });
 }
 
+
 // generate Customer IDs
 function generateCustomerId() {
     $.ajax({
@@ -176,6 +179,7 @@ $('#inputName,#inputAddress,#inputContactNo,#inputNIC,#inputDrivingLicence,#inpu
         checkIfSignUpUserFormValid();
     }
 });
+
 
 //------------SIGN UP------------------------------------
 // signup validation
@@ -459,7 +463,6 @@ function addCustomer() {
 }
 
 
-
 // upload customer images
 function uploadCustomerImages(id) {
     var fileObjectNic1 = $('#inputfile1')[0].files[0];
@@ -516,7 +519,6 @@ function clearSignupTextFields() {
     $('#inputPassword').css('border', '1px solid #ced4da');
     disableAllComponents();
 }
-
 
 
 //----------------ADMIN---------------------
@@ -704,6 +706,7 @@ function loginUser() {
     }
 }
 
+// save logins to database and load pages
 function loginSave(userType, username, password) {
     let logId = $('#txtLogId').val();
     console.log(logId);
@@ -720,17 +723,18 @@ function loginSave(userType, username, password) {
             }
         ),
         success: function (res) {
-            if (userType==="Admin"){
+            if (userType === "Admin") {
                 location.replace("AdminDashboard.html");
-            } else if (userType==="Customer"){
+            } else if (userType === "Customer") {
                 location.replace("CustomerDashboard.html");
-            } else if (userType==="Driver"){
+            } else if (userType === "Driver") {
                 location.replace("DriverDashboard.html");
             }
             console.log("Login data saved");
         }
     })
 }
+
 
 // function for generate id
 $(function () {
@@ -758,11 +762,13 @@ function searchAdmin(userType, username, password) {
                 loginSave(userType, username, password);
 
             } else {
-                alert(res.message);
+                // alert(res.message);
+                alert("username or password Incorrect");
             }
         }
     });
 }
+
 
 // search customer
 function searchCustomer(userType, username, password) {
@@ -774,11 +780,13 @@ function searchCustomer(userType, username, password) {
             if (res.data === true) {
                 loginSave(userType, username, password);
             } else {
-                alert(res.message);
+                // alert(res.message);
+                alert("username or password Incorrect");
             }
         }
     })
 }
+
 
 // search driver
 function searchDriver(userType, username, password) {
@@ -790,7 +798,8 @@ function searchDriver(userType, username, password) {
             if (res.data === true) {
                 loginSave(userType, username, password);
             } else {
-                alert(res.message);
+                // alert(res.message);
+                alert("username or password Incorrect");
             }
         }
     })

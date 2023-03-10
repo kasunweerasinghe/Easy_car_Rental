@@ -27,6 +27,7 @@ function getAllDriverData(username, password) {
     })
 }
 
+
 // load data into driver table
 function loadDriverSchedule(licenceNo){
     $('#bookingScheduleTable').empty();

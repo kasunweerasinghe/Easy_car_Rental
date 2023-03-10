@@ -2665,6 +2665,7 @@ $('#txtTotalKm').on('keyup', function (event) {
     }
 })
 
+
 // check total km validation
 function checkTotalKm() {
     let km = $('#txtTotalKm').val();

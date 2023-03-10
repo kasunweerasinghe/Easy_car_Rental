@@ -11,8 +11,4 @@ public interface CarRentReturnRepo extends JpaRepository<CarRentReturn, String> 
     @Query(value = "SELECT returnId FROM CarRentReturn ORDER BY returnId DESC LIMIT 1", nativeQuery = true)
     String generateReturnId();
 
-    @Modifying
-    @Transactional
-    @Query(value = "INSERT INTO CarRentReturn VALUES (:returnId,:date,:noOfKm,:paymentId,:rentId)", nativeQuery = true)
-    void saveCarRentReturn(@Param("returnId") String returnId, @Param("date") String date, @Param("noOfKm") double noOfKm, @Param("paymentId") String paymentId, @Param("rentId") String rentId);
 }
